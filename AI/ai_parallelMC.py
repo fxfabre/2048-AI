@@ -45,7 +45,6 @@ def runSimulation(params):
 
         deep = 0
         score = 0
-        have_break = False
         while deep < DEEP_SIMULATIONS:
             if deep == 0:
                 direction = firstDirection
