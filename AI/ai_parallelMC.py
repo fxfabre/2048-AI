@@ -10,7 +10,7 @@ import time
 NB_PROCESS = 4
 AVAILABLE_MOVES = ['down', 'left', 'right', 'up']
 NB_SIMULATIONS_MC = 750 # Number of random simulations
-DEEP_SIMULATIONS  = 8    # Deep in the tree for MC simulations
+DEEP_SIMULATIONS  = 3    # Deep in the tree for MC simulations
 
 
 class ai_parallelMC:
@@ -45,6 +45,7 @@ def runSimulation(params):
 
         deep = 0
         score = 0
+        have_break = False
         while deep < DEEP_SIMULATIONS:
             if deep == 0:
                 direction = firstDirection
@@ -57,7 +58,7 @@ def runSimulation(params):
                 deep += 1
                 grid_MC.add_random_tile()
             else:
-                deep = DEEP_SIMULATIONS + 1 # end
+                break
 
         scores.append(score)
         deeps.append(deep)
