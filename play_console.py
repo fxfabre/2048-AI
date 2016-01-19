@@ -46,6 +46,7 @@ class consoleAutoPlay:
 
             score, has_moved = self.grid.moveTo(nextMove)
             self.grid.add_random_tile()
+            score = score - self.totalScore
             self.totalScore += score
             print("Move {0:<5}, add score {1:>5}, total score {2:>5}".format(nextMove, score, self.totalScore))
 

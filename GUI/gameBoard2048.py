@@ -8,6 +8,7 @@ from AI.ai_random import ai_random
 from AI.ai_bestScoreNextMove import ai_bestScoreNextMove
 from AI.ai_MC import ai_MCsimulation
 from AI.ai_parallelMC import ai_parallelMC
+from AI.ai_minimax import ai_minimax
 
 
 class gameBoard2048:
@@ -27,7 +28,7 @@ class gameBoard2048:
         self.grid.set_score_callback(self.update_score)
 
         # Init AI
-        self._ai = ai_parallelMC()
+        self._ai = ai_minimax()
         self._scoreHistory = []
         self._gridHistory = []
 

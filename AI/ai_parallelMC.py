@@ -19,8 +19,6 @@ class ai_parallelMC:
         self.pool = multiprocessing.Pool(processes=NB_PROCESS)
 
     def move_next(self, gameBoard, gridHistory, scoreHistory):
-        if gameBoard.grid.isGameOver:
-            return ''
 
         grid = gameBoard.grid.toIntMatrix()
         params = [ [direction, grid] for direction in AVAILABLE_MOVES]

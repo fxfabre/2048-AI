@@ -7,7 +7,7 @@ import random
 
 class gameGridLight:
 
-    def __init__(self, nbRows=0, nbColumns=0, matrix=None):
+    def __init__(self, nbRows=0, nbColumns=0, matrix=None, score=0):
         if matrix is not None:
             nbRows = matrix.shape[0]
             nbColumns = matrix.shape[1]
@@ -18,9 +18,10 @@ class gameGridLight:
         self.rows = nbRows
         self.columns = nbColumns
         self.isGameOver = False
+        self.score = score
 
     def clone(self):
-        return gameGridLight(matrix=self.matrix)
+        return gameGridLight(matrix=self.matrix, score=self.score)
 
     ###############
     # Moves
@@ -83,7 +84,9 @@ class gameGridLight:
                     _at[_row, _column] = 0
                     _first_empty_column += 1
                     have_moved = True
-        return score, have_moved
+
+        self.score += score
+        return self.score, have_moved
 
     def moveRight(self):
         _at = self.matrix
@@ -122,7 +125,9 @@ class gameGridLight:
                     _at[_row, _column] = 0
                     _first_empty_column -= 1
                     have_moved = True
-        return score, have_moved
+
+        self.score += score
+        return self.score, have_moved
 
     def moveUp(self):
         _at = self.matrix
@@ -162,7 +167,9 @@ class gameGridLight:
                     _at[_row, _column] = 0
                     _first_empty_row += 1
                     have_moved = True
-        return score, have_moved
+
+        self.score += score
+        return self.score, have_moved
 
     def moveDown(self):
         _at = self.matrix
@@ -202,10 +209,13 @@ class gameGridLight:
                     _at[_row, _column] = 0
                     _first_empty_row -= 1
                     have_moved = True
-        return score, have_moved
+
+        self.score += score
+        return self.score, have_moved
 
     ###############
     # Can move
+    ###############
     def canMergeLeftRight(self):
         for row in range(self.rows):
             for column in range(self.columns -1):
@@ -296,6 +306,15 @@ class gameGridLight:
                 return False
         return True
 
+    def canAddTile(self, x, y):
+        return self.matrix[x,y] == 0
+
+    def addTile(self, x, y, tileToAdd):
+        if self.canAddTile(x, y):
+            self.matrix[x, y] = tileToAdd
+        else:
+            print("Unable to add tile at ({0}, {1})".format(x, y))
+
     def add_random_tile(self):
         """
             pops up a random tile at a given place;
@@ -307,7 +326,7 @@ class gameGridLight:
         _value = random.choice([2, 2, 2, 4, 2, 2, 2, 2, 2, 2])
         _row, _column = self.get_available_box()
         self.set_tile(_row, _column, _value)
-#        print("Adding tile {0} at ({1}, {2})".format(_value, _row, _column))
+        #print("Adding tile {0} at ({1}, {2})".format(_value, _row, _column))
 
     def set_tile(self, row, col, value):
         if self.matrix[row, col] != 0:
@@ -333,6 +352,9 @@ class gameGridLight:
 
     def toIntMatrix(self):
         return self.matrix
+
+    def getScore(self):
+        return self.score
 
     def __str__(self):
         return str(self.matrix)
