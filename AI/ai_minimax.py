@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-
 from AI.Models.simulationNode import SimulationNode
 import random
 import AI.GameGridLight as GGL
@@ -11,32 +10,38 @@ import numpy as np
 
 
 AVAILABLE_MOVES = ['down', 'left', 'right', 'up']
-DEEP = 2
+DEEP = 6
 
 class ai_minimax:
 
     def __init__(self):
         print("Initialize AI minimax")
-        pass
 
     def move_next(self, gameBoard, gridHistory, scoreHistory):
         if gameBoard.grid.isGameOver:
             return ''
 
-        direction, _ = evalMoveTo(gameBoard, DEEP)
+        gridMatrix = gameBoard.grid.toIntMatrix()
+        grid = GGL.gameGridLight(matrix=gridMatrix)
+
+        direction, _ = evalMoveTo(grid, DEEP)
+        print("Moving to " + direction)
         return direction
 
 
-def evalMoveTo(par_grid:GGL.gameGridLight, deep:int):
+def evalMoveTo(par_grid: GGL.gameGridLight, deep: int):
     if deep == 0:
-        return par_grid.getScore()
+        return '', par_grid.getScore()
 
     scores = []
     for direction in AVAILABLE_MOVES:
         loc_grid = par_grid.clone()
-        loc_grid.moveTo(direction)
-        score = evalAddTile(loc_grid, deep -1)
-        scores.append((direction, score))
+        _, have_moved = loc_grid.moveTo(direction)
+        if have_moved:
+            score = evalAddTile(loc_grid, deep -1)
+            scores.append((direction, score))
+        else:
+            scores.append((direction, -1))
 
     # return argmax( scores )
     best_direction = ''
@@ -46,20 +51,24 @@ def evalMoveTo(par_grid:GGL.gameGridLight, deep:int):
             best_direction = direction
             best_score = score
 
+#    print("Best direction : " + str(best_direction))
     return best_direction, best_score
 
-def evalAddTile(par_grid:GGL.gameGridLight, deep:int):
+def evalAddTile(par_grid: GGL.gameGridLight, deep: int):
     if deep == 0:
         return par_grid.getScore()
+#    print(deep)
 
-    scores = np.zeros(2 * par_grid.rows * par_grid.columns)
+    scores = np.zeros(2 * par_grid.rows * par_grid.columns) + 1000000000
     for x in range(par_grid.columns):
         for y in range(par_grid.rows):
             if not par_grid.canAddTile(x,y):
                 continue
             for tileToAdd in [2,4]:
+#                print("Tile to add : " + str(tileToAdd))
                 loc_grid = par_grid.clone()
-                loc_grid.add_tile(x, y, tileToAdd)
+                loc_grid.addTile(x, y, tileToAdd)
+#                print("Matrix")
                 _, score = evalMoveTo(loc_grid, deep -1) # should be deep, not deep -1, but it doesn't matter
 
                 index = coord_to_index(loc_grid, x, y, tileToAdd)

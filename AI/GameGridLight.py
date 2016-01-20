@@ -43,9 +43,6 @@ class gameGridLight:
             raise Exception("Unknown direction : " + direction)
 
         return score, have_moved
-        if have_moved:
-            return score
-        return -10 # Negative score if can't move
 
     def moveLeft(self):
         _at = self.matrix
