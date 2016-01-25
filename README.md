@@ -4,8 +4,8 @@ Play game 2048 with an "artificial intelligence"
 IA created :
 - Random move. Average score : ~200 pts
 - Maximize score at next move. Average score : ~500 pts
-- Monte carlo simulations, with parallel simulations. 1000 simulation, 6 nodes deep : 32748 pts
-- Minimax
+- Monte carlo simulations, with parallel simulations. 5000 simulation, 6 nodes deep : up to 70.000 pts
+- Minimax : max > 120.000 pts
 
 Next steps :
 - Use C++ / Cython to accelelerate MC simulations

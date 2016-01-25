@@ -28,7 +28,7 @@ class gameBoard2048:
         self.grid.set_score_callback(self.update_score)
 
         # Init AI
-        self._ai = ai_minimax()
+        self._ai = ai_parallelMC()
         self._scoreHistory = []
         self._gridHistory = []
 

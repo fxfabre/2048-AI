@@ -10,7 +10,7 @@ import numpy as np
 
 
 AVAILABLE_MOVES = ['down', 'left', 'right', 'up']
-DEEP = 6
+DEEP = 1
 
 class ai_minimax:
 
@@ -21,7 +21,10 @@ class ai_minimax:
         if gameBoard.grid.isGameOver:
             return ''
 
+        print("\n\n_______________________________________________\n\n" )
+
         gridMatrix = gameBoard.grid.toIntMatrix()
+        print(gridMatrix)
         grid = GGL.gameGridLight(matrix=gridMatrix)
 
         direction, _ = evalMoveTo(grid, DEEP)
@@ -32,11 +35,15 @@ class ai_minimax:
 def evalMoveTo(par_grid: GGL.gameGridLight, deep: int):
     if deep == 0:
         return '', par_grid.getScore()
+    print("Deep " + str(deep))
 
     scores = []
     for direction in AVAILABLE_MOVES:
         loc_grid = par_grid.clone()
         _, have_moved = loc_grid.moveTo(direction)
+        print(direction)
+        print(loc_grid.matrix)
+
         if have_moved:
             score = evalAddTile(loc_grid, deep -1)
             scores.append((direction, score))
@@ -57,7 +64,7 @@ def evalMoveTo(par_grid: GGL.gameGridLight, deep: int):
 def evalAddTile(par_grid: GGL.gameGridLight, deep: int):
     if deep == 0:
         return par_grid.getScore()
-#    print(deep)
+    print("Deep " + str(deep))
 
     scores = np.zeros(2 * par_grid.rows * par_grid.columns) + 1000000000
     for x in range(par_grid.columns):
