@@ -6,6 +6,7 @@ IA created :
 - Maximize score at next move. Average score : ~500 pts
 - Monte carlo simulations, with parallel simulations. 5000 simulation, 6 nodes deep : up to 70.000 pts
 - Minimax : max > 120.000 pts
+- Expectimax
 
 Next steps :
 - Use C++ / Cython to accelelerate MC simulations
