@@ -8,6 +8,11 @@ from AI.ai_random import ai_random
 from AI.ai_bestScoreNextMove import ai_bestScoreNextMove
 from AI.ai_MC import ai_MCsimulation
 from AI.ai_parallelMC import ai_parallelMC
+from AI.ai_minimax import ai_minimax
+from AI.ai_expectimax import ai_expectimax
+
+from pandas import DataFrame
+import numpy as np
 
 
 class consoleAutoPlay:
@@ -16,7 +21,7 @@ class consoleAutoPlay:
         self._scoreHistory = []
         self._gridHistory  = []
         self.totalScore = 0
-        self._ai = ai_parallelMC()
+        self._ai = ai_expectimax()
         self.grid = None
         pass
 
@@ -28,12 +33,15 @@ class consoleAutoPlay:
         i = 0
         nextMove = 'up'
         nb_itera_without_moving = 0
-        while nb_itera_without_moving < 5:
+        while nb_itera_without_moving == 0:
             i += 1
 
+#            if self.totalScore > 20:
+#                exit(0)
+
             # Add history (grid and score) data
-#            self._scoreHistory.append( self.totalScore )
-#            self._gridHistory.append( grid.matrix )
+            self._scoreHistory.append( self.totalScore )
+            self._gridHistory.append( self.grid.matrix )
 
             # Get next move : 'left', 'right', 'up' or 'down'
             nextMove = self._ai.move_next(self, self._gridHistory, self._scoreHistory)
@@ -46,7 +54,7 @@ class consoleAutoPlay:
 
             score, has_moved = self.grid.moveTo(nextMove)
             self.grid.add_random_tile()
-            score = score - self.totalScore
+            score -= self.totalScore
             self.totalScore += score
             print("Move {0:<5}, add score {1:>5}, total score {2:>5}".format(nextMove, score, self.totalScore))
 
@@ -57,6 +65,14 @@ class consoleAutoPlay:
             print(self.grid)
 
         print("Game over in {0} iterations, score = {1}".format(i+1, self.totalScore))
+
+    def saveScores(self):
+        N = len( self._scoreHistory )
+        datasToStore = DataFrame( np.array([N, 17]) )
+
+        datasToStore[:][0] = self._scoreHistory
+
+
 
 
 if __name__ == '__main__':
