@@ -1,15 +1,14 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from AI.Models.simulationNode import SimulationNode
-import random
-import AI.GameGridLight as GGL
 import multiprocessing
-import time
+import random
+
+import GameGrids.GameGridLight as GGL
 
 NB_PROCESS = 4
 AVAILABLE_MOVES = ['down', 'left', 'right', 'up']
-NB_SIMULATIONS_MC = 750 # Number of random simulations
+NB_SIMULATIONS_MC = 500  # Number of random simulations
 DEEP_SIMULATIONS  = 3    # Deep in the tree for MC simulations
 
 
@@ -19,7 +18,6 @@ class ai_parallelMC:
         self.pool = multiprocessing.Pool(processes=NB_PROCESS)
 
     def move_next(self, gameBoard, gridHistory, scoreHistory):
-
         grid = gameBoard.grid.toIntMatrix()
         params = [ [direction, grid] for direction in AVAILABLE_MOVES]
 
@@ -71,7 +69,6 @@ def getBestMove(scores):
     best_len   = 0
 
     for i in range(len(scores)):
-#        print(i, scores[i])
         score    = scores[i][0]
         nb_moves = scores[i][1]
         if score > best_score:

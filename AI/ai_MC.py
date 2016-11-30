@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from AI.Models.simulationNode import SimulationNode
 import random
-import AI.GameGridLight as GGL
 
+import GameGrids.GameGridLight as GGL
+from AI.Models.simulationNode import SimulationNode
 
 available_moves = ['down', 'left', 'right', 'up']
 

@@ -3,24 +3,24 @@
 
 import random
 import sys
-from time import sleep
+
+from AI.ai_base import BaseAi
 
 
-class ai_random:
+class ai_random(BaseAi):
 
     def __init__(self):
         self._available_moves = ['left', 'right', 'up', 'down']
         file = open("LogPython.log", 'w')
         self.logFile = file
 
-    def move_next(self, gameBoard, gridHistory, scoreHistory):
-        grid = gameBoard.grid
+    def GetMove(self, grid, history):
+        # grid = game_board.grid
         if grid.isGameOver:
             return ''
 
-        direction = random.choice( self._available_moves )
+        direction = random.choice(self._available_moves)
 
-        sleep(0.01)
         return direction
 
     def __del__(self):

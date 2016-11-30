@@ -5,32 +5,37 @@ import numpy as np
 import random
 
 
-class gameGridLight:
+class GameGrid2048:
 
     def __init__(self, nbRows=0, nbColumns=0, matrix=None, score=0):
         if matrix is not None:
             nbRows = matrix.shape[0]
             nbColumns = matrix.shape[1]
-            self.matrix = np.array(matrix)
+            self.matrix = np.array(matrix, dtype=int)
         else:
-            self.matrix = np.zeros([nbRows, nbColumns])
+            self.matrix = np.zeros([nbRows, nbColumns], dtype=int)
 
         self.rows = nbRows
         self.columns = nbColumns
         self.isGameOver = False
         self.score = score
 
+    def initNewGame(self):
+        self.matrix = np.zeros([self.rows, self.columns], dtype=int)
+        self.add_random_tile()
+        self.add_random_tile()
+        self.isGameOver = False
+        self.score = 0
+
     def clone(self):
-        return gameGridLight(matrix=self.matrix, score=self.score)
+        return self
+        return GameGrid2048(matrix=self.matrix, score=self.score)
 
     ###############
     # Moves
     ###############
     def moveTo(self, direction=""):
         direction = direction.lower()
-
-        score = 0
-        have_moved = False
         if direction == 'left':
             return self.moveLeft()
         elif direction == 'right':
@@ -39,10 +44,7 @@ class gameGridLight:
             return self.moveUp()
         elif direction == 'down':
             return self.moveDown()
-        else:
-            raise Exception("Unknown direction : " + direction)
-
-        return score, have_moved
+        raise Exception("Unknown direction : " + direction)
 
     def moveLeft(self):
         _at = self.matrix
@@ -58,9 +60,9 @@ class gameGridLight:
                     if _at[_row, _column_next] == 0:
                         continue
                     if _at[_row, _column] == _at[_row, _column_next]:
-                        self.matrix[_row, _column] *= 2
+                        self.matrix[_row, _column] += 1
                         self.matrix[_row, _column_next] = 0
-                        score +=_at[_row, _column]
+                        score += 2 << _at[_row, _column]
                         have_moved = True
                     break
 
@@ -99,9 +101,9 @@ class gameGridLight:
                     if _at[_row, _column_next] == 0:
                         continue
                     if _at[_row, _column] == _at[_row, _column_next]:
-                        self.matrix[_row, _column] *= 2
+                        self.matrix[_row, _column] += 1
                         self.matrix[_row, _column_next] = 0
-                        score +=_at[_row, _column]
+                        score += 2 << _at[_row, _column]
                         have_moved = True
                     break
 
@@ -141,9 +143,9 @@ class gameGridLight:
                     if _at[_row_next, _column] == 0:
                         continue
                     if _at[_row, _column] == _at[_row_next, _column]:
-                        self.matrix[_row, _column] *= 2
+                        self.matrix[_row, _column] += 1
                         self.matrix[_row_next, _column] = 0
-                        score +=_at[_row, _column]
+                        score += 2 << _at[_row, _column]
                         have_moved = True
                     break
 
@@ -183,9 +185,9 @@ class gameGridLight:
                     if _at[_row_next, _column] == 0:
                         continue
                     if _at[_row, _column] == _at[_row_next, _column]:
-                        self.matrix[_row, _column] *= 2
+                        self.matrix[_row, _column] += 1
                         self.matrix[_row_next, _column] = 0
-                        score +=_at[_row, _column]
+                        score += 2 << _at[_row, _column]
                         have_moved = True
                     break
 
@@ -320,10 +322,9 @@ class gameGridLight:
         if self.is_full():
             return
 
-        _value = random.choice([2, 2, 2, 4, 2, 2, 2, 2, 2, 2])
+        _value = random.choice([1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
         _row, _column = self.get_available_box()
         self.set_tile(_row, _column, _value)
-        #print("Adding tile {0} at ({1}, {2})".format(_value, _row, _column))
 
     def set_tile(self, row, col, value):
         if self.matrix[row, col] != 0:
@@ -353,8 +354,16 @@ class gameGridLight:
     def getScore(self):
         return self.score
 
+    @property
+    def max_value(self):
+        return self.rows + self.columns + 1
+
     def __str__(self):
-        return str(self.matrix)
+        realValues = np.zeros([self.rows, self.columns], dtype=int)
+        for i in range(self.rows):
+            for j in range(self.columns):
+                realValues[i, j] = 1 << self.matrix[i, j]
+        return str(realValues)
 
     def __eq__(self, other):
         return array2DEquals(self.matrix, other.matrix)

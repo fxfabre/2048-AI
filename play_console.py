@@ -1,18 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from GUI.gameBoard2048 import gameBoard2048
-from AI.GameGridLight import gameGridLight
-
-from AI.ai_random import ai_random
-from AI.ai_bestScoreNextMove import ai_bestScoreNextMove
-from AI.ai_MC import ai_MCsimulation
-from AI.ai_parallelMC import ai_parallelMC
-from AI.ai_minimax import ai_minimax
-from AI.ai_expectimax import ai_expectimax
-
-from pandas import DataFrame
 import numpy as np
+from pandas import DataFrame
+
+from AI.ai_parallelMC import ai_parallelMC
+from GameGrids.LogGameGrid import GameGrid2048
 
 
 class consoleAutoPlay:
@@ -21,12 +14,12 @@ class consoleAutoPlay:
         self._scoreHistory = []
         self._gridHistory  = []
         self.totalScore = 0
-        self._ai = ai_expectimax()
+        self._ai = ai_parallelMC()
         self.grid = None
         pass
 
     def playGame(self):
-        self.grid = gameGridLight(nbRows=4, nbColumns=4)
+        self.grid = GameGrid2048(nbRows=3, nbColumns=3)
         self.grid.add_random_tile()
         self.grid.add_random_tile()
 
@@ -36,19 +29,17 @@ class consoleAutoPlay:
         while nb_itera_without_moving == 0:
             i += 1
 
-#            if self.totalScore > 20:
-#                exit(0)
-
             # Add history (grid and score) data
             self._scoreHistory.append( self.totalScore )
             self._gridHistory.append( self.grid.matrix )
+            # self._actionHistory ?
 
             # Get next move : 'left', 'right', 'up' or 'down'
             nextMove = self._ai.move_next(self, self._gridHistory, self._scoreHistory)
 
             if len(nextMove) == 0:
                 print("null direction")
-                print(self.grid.matrix)
+                print(self.grid)
                 nb_itera_without_moving += 1
                 continue
 
@@ -60,7 +51,6 @@ class consoleAutoPlay:
 
             if not has_moved:
                 print("did not moved")
-                print(self.grid.matrix)
                 nb_itera_without_moving += 1
             print(self.grid)
 
@@ -71,8 +61,6 @@ class consoleAutoPlay:
         datasToStore = DataFrame( np.array([N, 17]) )
 
         datasToStore[:][0] = self._scoreHistory
-
-
 
 
 if __name__ == '__main__':

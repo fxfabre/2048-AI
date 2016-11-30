@@ -1,13 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from AI.Models.simulationNode import SimulationNode
-import random
-import AI.GameGridLight as GGL
-import multiprocessing
-import time
 import numpy as np
 
+import GameGrids.GameGridLight as GGL
 
 AVAILABLE_MOVES = ['down', 'left', 'right', 'up']
 DEEP = 3

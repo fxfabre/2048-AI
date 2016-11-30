@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import AI.GameGridLight as GGL
+import GameGrids.GameGridLight as GGL
 
 
 class ai_bestScoreNextMove:
