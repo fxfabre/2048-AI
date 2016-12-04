@@ -104,7 +104,7 @@ class Game2048(TK.Tk):
         # bind events
         self.bind_all("<Key>", self.gameBoard.slot_keypressed)
 
-    def quit_app (self, **kw):
+    def quit_app(self, **kw):
         """
             quit app dialog;
         """
@@ -115,7 +115,7 @@ class Game2048(TK.Tk):
         if MB.askokcancel("Question", "Quit game?", parent=self):
             self.quit()
 
-    def run (self, **kw):
+    def run(self, **kw):
         """
             actually runs the game;
         """

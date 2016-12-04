@@ -741,6 +741,8 @@ class GridMatrix:
         """
         try:
             _object = self.matrix[row][column]
+        except KeyboardInterrupt:
+            raise
         except:
             _object = None
 

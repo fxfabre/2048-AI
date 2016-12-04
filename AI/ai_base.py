@@ -4,7 +4,7 @@
 
 class BaseAi:
 
-    def init(self, grid):
+    def init(self, nb_row, nb_col, max_value):
         return
 
     def GetMove(self, current_grid, history):

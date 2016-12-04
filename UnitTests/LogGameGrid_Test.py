@@ -6,8 +6,8 @@ import unittest
 
 import numpy as np
 
-from GameGrids.GameGridLight import gameGridLight as GameGrid
-from GameGrids.GameGridLight import array2DEquals
+from GameGrids.LogGameGrid import GameGrid2048 as GameGrid
+from GameGrids.LogGameGrid import array2DEquals
 
 
 class testConstructor(unittest.TestCase):
@@ -38,10 +38,10 @@ class TestMoves(unittest.TestCase):
              [0,2,0,2]]
         )
         target = np.array(
-            [[4,0,0,0],
-             [4,0,0,0],
-             [4,0,0,0],
-             [4,0,0,0]]
+            [[3,0,0,0],
+             [3,0,0,0],
+             [3,0,0,0],
+             [3,0,0,0]]
         )
         grid = GameGrid(0,0,tab)
         score, has_moved = grid.moveLeft()
@@ -50,17 +50,17 @@ class TestMoves(unittest.TestCase):
 
         tab = np.array(
             [[2,2,0,2],
-             [2,0,4,2],
-             [0,2,0,4],
-             [4,0,2,2],
-             [2,0,2,4]]
+             [2,0,3,2],
+             [0,2,0,3],
+             [3,0,2,2],
+             [2,0,2,3]]
         )
         target = np.array(
-            [[4,2,0,0],
-             [2,4,2,0],
-             [2,4,0,0],
-             [4,4,0,0],
-             [4,4,0,0]]
+            [[3,2,0,0],
+             [2,3,2,0],
+             [2,3,0,0],
+             [3,3,0,0],
+             [3,3,0,0]]
         )
         grid = GameGrid(0,0,tab)
         grid.moveLeft()
@@ -74,10 +74,10 @@ class TestMoves(unittest.TestCase):
              [0,2,0,2]]
         )
         target = np.array(
-            [[0,0,0,4],
-             [0,0,0,4],
-             [0,0,0,4],
-             [0,0,0,4]]
+            [[0,0,0,3],
+             [0,0,0,3],
+             [0,0,0,3],
+             [0,0,0,3]]
         )
         grid = GameGrid(0,0,tab)
         grid.moveRight()
@@ -85,15 +85,15 @@ class TestMoves(unittest.TestCase):
 
         tab = np.array(
             [[2,2,0,2],
-             [2,0,4,2],
-             [0,2,0,4],
-             [4,0,2,2]]
+             [2,0,3,2],
+             [0,2,0,3],
+             [3,0,2,2]]
         )
         target = np.array(
-            [[0,0,2,4],
-             [0,2,4,2],
-             [0,0,2,4],
-             [0,0,4,4]]
+            [[0,0,2,3],
+             [0,2,3,2],
+             [0,0,2,3],
+             [0,0,3,3]]
         )
         grid = GameGrid(0,0,tab)
         grid.moveRight()
@@ -107,7 +107,7 @@ class TestMoves(unittest.TestCase):
              [0,0,2,0,2,2]]
         )
         target = np.array(
-            [[4,4,4,4,4,4],
+            [[3,3,3,3,3,3],
              [0,0,0,0,0,0],
              [0,0,0,0,0,0],
              [0,0,0,0,0,0]]
@@ -117,30 +117,30 @@ class TestMoves(unittest.TestCase):
         self.assertTrue(array2DEquals(grid.matrix, target), "\n" + str(grid.matrix) + "\n" + str(target))
 
         tab = np.array(
-            [[2,2,2,4,0,0],
-             [2,4,0,2,2,4],
-             [4,2,4,2,4,2],
-             [0,4,2,4,2,2]]
+            [[2,2,2,3,0,0],
+             [2,3,0,2,2,3],
+             [3,2,3,2,3,2],
+             [0,3,2,4,2,2]]
         )
         target = np.array(
-            [[4,2,2,4,2,4],
-             [4,4,4,4,4,4],
+            [[3,2,2,3,2,3],
+             [3,3,3,3,3,3],
              [0,2,2,4,2,0],
-             [0,4,0,0,0,0]]
+             [0,3,0,0,0,0]]
         )
         grid = GameGrid(0,0,tab)
         grid.moveUp()
         self.assertTrue(array2DEquals(grid.matrix, target), "\n" + str(grid.matrix) + "\n" + str(target))
 
         tab = np.array(
-            [[2,2,0,4],
+            [[2,2,0,3],
              [2,0,2,0],
-             [0,4,0,2],
-             [2,2,4,2]]
+             [0,3,0,2],
+             [2,2,3,2]]
         )
         target = np.array(
-            [[4,2,2,4],
-             [2,4,4,4],
+            [[3,2,2,3],
+             [2,3,3,3],
              [0,2,0,0],
              [0,0,0,0]]
         )
@@ -160,39 +160,39 @@ class TestMoves(unittest.TestCase):
             [[0,0,0,0,0,0],
              [0,0,0,0,0,0],
              [0,0,0,0,0,0],
-             [4,4,4,4,4,4]]
+             [3,3,3,3,3,3]]
         )
-        grid = GameGrid(0,0,tab)
+        grid = GameGrid(0, 0, tab)
         grid.moveDown()
         self.assertTrue(array2DEquals(grid.matrix, target), "\n" + str(grid.matrix) + "\n" + str(target))
 
         tab = np.array(
-            [[2,2,2,4,0,0],
-             [2,4,0,2,2,4],
-             [4,2,4,2,4,2],
-             [0,4,2,4,2,2]]
+            [[2,2,2,3,0,0],
+             [2,3,0,2,2,3],
+             [3,2,3,2,3,2],
+             [0,3,2,3,2,2]]
         )
         target = np.array(
             [[0,2,0,0,0,0],
-             [0,4,2,4,2,0],
-             [4,2,4,4,4,4],
-             [4,4,2,4,2,4]]
+             [0,3,2,3,2,0],
+             [3,2,3,3,3,3],
+             [3,3,2,3,2,3]]
         )
         grid = GameGrid(0,0,tab)
         grid.moveDown()
         self.assertTrue(array2DEquals(grid.matrix, target), "\n" + str(grid.matrix) + "\n" + str(target))
 
         tab = np.array(
-            [[2,2,0,4],
+            [[2,2,0,3],
              [2,0,2,0],
-             [0,4,0,2],
-             [2,2,4,2]]
+             [0,3,0,2],
+             [2,2,3,2]]
         )
         target = np.array(
             [[0,0,0,0],
              [0,2,0,0],
-             [2,4,2,4],
-             [4,2,4,4]]
+             [2,3,2,3],
+             [3,2,3,3]]
         )
         grid = GameGrid(0,0,tab)
         grid.moveDown()
@@ -731,7 +731,7 @@ class TestPrivateFunctions(unittest.TestCase):
                 grid = GameGrid(0, 0, tab)
                 grid.matrix[row, column] = 0
                 grid.add_random_tile()
-                self.assertTrue(grid.matrix.sum() > 16)
+                self.assertTrue(grid.matrix.sum() > 15)
 
 
 class TestTools(unittest.TestCase):

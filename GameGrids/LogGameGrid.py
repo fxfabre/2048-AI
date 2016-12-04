@@ -3,29 +3,12 @@
 
 import numpy as np
 import random
+import constants
+
+from GameGrids.baseGrid2048 import BaseGrid2048, array2DEquals
 
 
-class GameGrid2048:
-
-    def __init__(self, nbRows=0, nbColumns=0, matrix=None, score=0):
-        if matrix is not None:
-            nbRows = matrix.shape[0]
-            nbColumns = matrix.shape[1]
-            self.matrix = np.array(matrix, dtype=int)
-        else:
-            self.matrix = np.zeros([nbRows, nbColumns], dtype=int)
-
-        self.rows = nbRows
-        self.columns = nbColumns
-        self.isGameOver = False
-        self.score = score
-
-    def initNewGame(self):
-        self.matrix = np.zeros([self.rows, self.columns], dtype=int)
-        self.add_random_tile()
-        self.add_random_tile()
-        self.isGameOver = False
-        self.score = 0
+class GameGrid2048(BaseGrid2048):
 
     def clone(self):
         return self
@@ -35,6 +18,9 @@ class GameGrid2048:
     # Moves
     ###############
     def moveTo(self, direction=""):
+        if self.matrix.max() >= constants.GRID_MAX_VAL:
+            return 0, False
+
         direction = direction.lower()
         if direction == 'left':
             return self.moveLeft()
@@ -44,7 +30,7 @@ class GameGrid2048:
             return self.moveUp()
         elif direction == 'down':
             return self.moveDown()
-        raise Exception("Unknown direction : " + direction)
+        return 0, False
 
     def moveLeft(self):
         _at = self.matrix
@@ -356,25 +342,15 @@ class GameGrid2048:
 
     @property
     def max_value(self):
-        return self.rows + self.columns + 1
+        return constants.GRID_MAX_VAL or (self.rows + self.columns + 1)
 
     def __str__(self):
         realValues = np.zeros([self.rows, self.columns], dtype=int)
         for i in range(self.rows):
             for j in range(self.columns):
                 realValues[i, j] = 1 << self.matrix[i, j]
-        return str(realValues)
+        return str(realValues).replace('[1 ', '[. ').replace(' 1 ', ' . ').replace(' 1]', ' .]')
 
     def __eq__(self, other):
         return array2DEquals(self.matrix, other.matrix)
-
-
-def array2DEquals(matrix_a, matrix_b):
-    if matrix_a.shape != matrix_b.shape:
-        return False
-    for i in range(matrix_a.shape[0]):
-        for j in range(matrix_a.shape[1]):
-            if matrix_a[i,j] != matrix_b[i,j]:
-                return False
-    return True
 

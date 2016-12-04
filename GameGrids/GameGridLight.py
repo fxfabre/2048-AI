@@ -1,28 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import numpy as np
 import random
+from GameGrids.baseGrid2048 import BaseGrid2048, array2DEquals
 
 
-class gameGridLight:
-
-    def __init__(self, nbRows=0, nbColumns=0, matrix=None, score=0):
-        if matrix is not None:
-            nbRows = matrix.shape[0]
-            nbColumns = matrix.shape[1]
-            self.matrix = np.array(matrix)
-        else:
-            self.matrix = np.zeros([nbRows, nbColumns])
-
-        self.rows = nbRows
-        self.columns = nbColumns
-        self.isGameOver = False
-        self.score = score
-
-    def initNewGame(self):
-        self.add_random_tile()
-        self.add_random_tile()
+class gameGridLight(BaseGrid2048):
 
     def clone(self):
         return gameGridLight(matrix=self.matrix, score=self.score)
@@ -363,6 +346,7 @@ class gameGridLight:
 
     @property
     def max_value(self):
+        return 6    # not the actual max value. But enough for now.
         return self.rows + self.columns + 1
 
     def __str__(self):
@@ -370,14 +354,4 @@ class gameGridLight:
 
     def __eq__(self, other):
         return array2DEquals(self.matrix, other.matrix)
-
-
-def array2DEquals(matrix_a, matrix_b):
-    if matrix_a.shape != matrix_b.shape:
-        return False
-    for i in range(matrix_a.shape[0]):
-        for j in range(matrix_a.shape[1]):
-            if matrix_a[i,j] != matrix_b[i,j]:
-                return False
-    return True
 

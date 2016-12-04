@@ -5,85 +5,103 @@ import os
 import numpy as np
 import random
 import pandas
+import logging
 import matplotlib
 from AI.ai_base import BaseAi
 from GameGrids.LogGameGrid import GameGrid2048
 
 ALPHA = 0.5
 GAMMA = 1.0
+EPSILON = 0.5
+
 
 class Qlearning(BaseAi):
 
     def __init__(self):
+        self._logger = logging.getLogger(__name__)
         print("Init Q learning")
-        self._available_moves = ['left', 'right', 'up', 'down']
+        self._moves_list = ['left', 'right', 'up', 'down']
 
         self.q_values = pandas.DataFrame()
         self.state_history = None
-        self.epsilon = 0.1
+        self.epsilon = EPSILON
 
-    def init(self, grid : GameGrid2048):
-        nb_box = grid.rows * grid.columns
-        nb_states  = grid.max_value ** nb_box
-        nb_actions = 4
-        print('Q learning : nb_states', nb_states)
-        self.q_values = pandas.DataFrame(np.zeros([nb_states, nb_actions]), columns=self._available_moves)
+    def init(self, nb_row, nb_col, max_value):
+        nb_box      = nb_row * nb_col
+        nb_states   = max_value ** nb_box
+        # nb_actions  = 4
+        # self.q_values = pandas.DataFrame(np.zeros([nb_states, nb_actions]), columns=self._moves_list)
+        self.q_values = pandas.DataFrame(index=range(nb_states), columns=self._moves_list)
+        self.q_values.fillna(0, inplace=True)
+        print('Init Q learning success :', self.q_values.shape)
 
-    def GetMove(self, current_grid, history):
+    def GetMove(self, current_grid : GameGrid2048, history):
+        available_moves = [move for move in self._moves_list if current_grid.canMove(move)]
+        self._logger.debug('Available moves : {0}'.format(available_moves))
+        if len(available_moves) == 1:
+            self._logger.debug("One move available : " + available_moves[0])
+            return available_moves[0]       # Don't waste time running AI
+        if len(available_moves) == 0:
+            self._logger.debug("No move available.")
+            return self._moves_list[0]      # whatever, it wont't move !
+
         if random.uniform(0, 1) < self.epsilon:
-            return random.choice(self._available_moves)
+            self._logger.debug("Randomly choose move")
+            return random.choice(available_moves)
 
         current_state = self.GetState(current_grid)
-        max_val = max(self.q_values.iloc[current_state, :])
-        idx_moves = []
-        for i in range(4):
-            if self.q_values.iloc[current_state, i] == max_val:
-                idx_moves.append(i)
+        current_q_val = self.q_values.iloc[current_state, :][available_moves]
+        self._logger.debug("Q values for current state :\n{0}".format(current_q_val))
 
-        if len(idx_moves) == 0:     # shouldn't happen
-            idx_move = np.argmax(self.q_values.iloc[current_state, :])
-        elif len(idx_moves) == 1:
-            idx_move = idx_moves[0]
+        max_val = current_q_val.max()
+        optimal_moves = current_q_val[current_q_val == max_val].index.tolist()
+        self._logger.debug("Optimal moves :\n{0}".format(optimal_moves))
+
+        if len(optimal_moves) == 0:     # shouldn't happen
+            raise Exception("No optimal move in Get move function")
+            # idx_move = np.argmax(self.q_values.iloc[current_state, :])
+        elif len(optimal_moves) == 1:
+            return optimal_moves[0]
         else:
-            idx_move = random.choice(idx_moves)
-        return self._available_moves[idx_move]
+            return random.choice(optimal_moves)
 
     def RecordState(self, old_state, current_grid, next_move, score, total_score, has_moved):
+        if next_move == '':
+            next_move = random.choice(self._moves_list)
+
         s = old_state
-        a = self._available_moves.index(next_move)
-
-        if not has_moved:
-            self.q_values.iloc[s, a] = -1000000000.0
-
+        a = self._moves_list.index(next_move)
         s_prime = self.GetState(current_grid)
-        q_value_a = self.q_values.iloc[s, a]
-        q_value_a_prime = self.q_values.iloc[s_prime, :].max()
-        print('Update q values from', self.q_values.iloc[s, a], end=' ')
-        self.q_values.iloc[s, a] += ALPHA * (0 + GAMMA * q_value_a_prime - q_value_a)
-        print('to', self.q_values.iloc[s, a])
+        q_value_s = self.q_values.iloc[s, a]
+        q_value_s_prime = self.q_values.iloc[s_prime, :].max()
+
+        if has_moved:
+            reward = score
+        else:
+            reward = -1000000000.0
+
+        self._logger.debug("Update q values from {0}".format(self.q_values.iloc[s, a]))
+        self.q_values.iloc[s, a] += ALPHA * (reward + GAMMA * q_value_s_prime - q_value_s)
+        self._logger.debug("To {0}".format(self.q_values.iloc[s, a]))
 
     def GetState(self, grid):
         total = 0
         for i in range(grid.columns):
             for j in range(grid.rows):
                 total = total * grid.max_value + grid.matrix[i, j]
+
         return total
 
     def SaveStates(self, name):
         file_name = name + '_qValues.csv'
         print("Saving file to", file_name)
         self.q_values.to_csv(file_name, sep='|')
-        # with open(file_name, 'w+') as f:
-        #     for state in range(self.q_values.shape[0]):
-        #         f.write(','.join(map(str, self.q_values[state, :])) + '\n')
 
     def LoadStates(self, name):
         file_name = name + '_qValues.csv'
+        current_shape = self.q_values.shape
         if os.path.exists(file_name):
+            print("Read Q values file")
             self.q_values = pandas.read_csv(file_name, sep='|', index_col=0)
-        # with open(file_name, 'w+') as f:
-        #     for state in range(len(self.q_values)):
-        #         f.write(','.join(map(str, self.q_values[state, :])) + '\n')
-
-
+        assert current_shape == self.q_values.shape
 
