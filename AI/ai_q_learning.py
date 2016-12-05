@@ -92,14 +92,14 @@ class Qlearning(BaseAi):
 
     def SaveStates(self, name):
         file_name = name + '_qValues.csv'
-        self._logger.info("Saving file to", file_name)
+        self._logger.info("Saving file to " + file_name)
         self.q_values.to_csv(file_name, sep='|')
 
     def LoadStates(self, name):
         file_name = name + '_qValues.csv'
         current_shape = self.q_values.shape
         if os.path.exists(file_name):
-            self._logger.info("Read Q values file")
+            self._logger.info("Read Q values file from " + file_name)
             self.q_values = pandas.read_csv(file_name, sep='|', index_col=0)
         assert current_shape == self.q_values.shape
 
