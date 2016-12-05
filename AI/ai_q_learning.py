@@ -2,17 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import os
-import numpy as np
 import random
 import pandas
 import logging
-import matplotlib
 from AI.ai_base import BaseAi
 from GameGrids.LogGameGrid import GameGrid2048
 
 ALPHA = 0.5
 GAMMA = 1.0
-EPSILON = 0.5
+EPSILON = 0.8       # 1 means move at random
 
 
 class Qlearning(BaseAi):
@@ -94,14 +92,14 @@ class Qlearning(BaseAi):
 
     def SaveStates(self, name):
         file_name = name + '_qValues.csv'
-        print("Saving file to", file_name)
+        self._logger.info("Saving file to", file_name)
         self.q_values.to_csv(file_name, sep='|')
 
     def LoadStates(self, name):
         file_name = name + '_qValues.csv'
         current_shape = self.q_values.shape
         if os.path.exists(file_name):
-            print("Read Q values file")
+            self._logger.info("Read Q values file")
             self.q_values = pandas.read_csv(file_name, sep='|', index_col=0)
         assert current_shape == self.q_values.shape
 
