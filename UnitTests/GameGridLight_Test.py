@@ -46,7 +46,8 @@ class TestMoves(unittest.TestCase):
         grid = GameGrid(0,0,tab)
         score, has_moved = grid.moveLeft()
         self.assertTrue(array2DEquals(grid.matrix, target), str(grid.matrix) + "\n" + str(target))
-
+        self.assertTrue(has_moved)
+        self.assertEqual(16, score)
 
         tab = np.array(
             [[2,2,0,2],
@@ -63,8 +64,10 @@ class TestMoves(unittest.TestCase):
              [4,4,0,0]]
         )
         grid = GameGrid(0,0,tab)
-        grid.moveLeft()
+        score, has_moved = grid.moveLeft()
         self.assertTrue(array2DEquals(grid.matrix, target), str(grid.matrix) + "\n" + str(target))
+        self.assertTrue(has_moved)
+        self.assertEqual(12, score)
 
     def test_MoveRight(self):
         tab = np.array(
@@ -80,8 +83,10 @@ class TestMoves(unittest.TestCase):
              [0,0,0,4]]
         )
         grid = GameGrid(0,0,tab)
-        grid.moveRight()
+        score, has_moved = grid.moveRight()
         self.assertTrue(array2DEquals(grid.matrix, target), str(grid.matrix) + "\n" + str(target))
+        self.assertTrue(has_moved)
+        self.assertEqual(16, score)
 
         tab = np.array(
             [[2,2,0,2],
@@ -95,9 +100,11 @@ class TestMoves(unittest.TestCase):
              [0,0,2,4],
              [0,0,4,4]]
         )
-        grid = GameGrid(0,0,tab)
-        grid.moveRight()
+        grid = GameGrid(0, 0, tab)
+        score, has_moved = grid.moveRight()
         self.assertTrue(array2DEquals(grid.matrix, target), str(grid.matrix) + "\n" + str(target))
+        self.assertTrue(has_moved)
+        self.assertEqual(8, score)
 
     def test_MoveUp(self):
         tab = np.array(
@@ -113,8 +120,10 @@ class TestMoves(unittest.TestCase):
              [0,0,0,0,0,0]]
         )
         grid = GameGrid(0,0,tab)
-        grid.moveUp()
+        score, has_moved = grid.moveUp()
         self.assertTrue(array2DEquals(grid.matrix, target), "\n" + str(grid.matrix) + "\n" + str(target))
+        self.assertTrue(has_moved)
+        self.assertEqual(24, score)
 
         tab = np.array(
             [[2,2,2,4,0,0],
@@ -129,8 +138,10 @@ class TestMoves(unittest.TestCase):
              [0,4,0,0,0,0]]
         )
         grid = GameGrid(0,0,tab)
-        grid.moveUp()
+        score, has_moved = grid.moveUp()
         self.assertTrue(array2DEquals(grid.matrix, target), "\n" + str(grid.matrix) + "\n" + str(target))
+        self.assertTrue(has_moved)
+        self.assertEqual(12, score)
 
         tab = np.array(
             [[2,2,0,4],
@@ -144,10 +155,11 @@ class TestMoves(unittest.TestCase):
              [0,2,0,0],
              [0,0,0,0]]
         )
-
         grid = GameGrid(0,0,tab)
-        grid.moveUp()
+        score, has_moved = grid.moveUp()
         self.assertTrue(array2DEquals(grid.matrix, target), "\n" + str(grid.matrix) + "\n" + str(target))
+        self.assertTrue(has_moved)
+        self.assertEqual(8, score)
 
     def test_MoveDown(self):
         tab = np.array(
@@ -163,8 +175,10 @@ class TestMoves(unittest.TestCase):
              [4,4,4,4,4,4]]
         )
         grid = GameGrid(0,0,tab)
-        grid.moveDown()
+        score, has_moved = grid.moveDown()
         self.assertTrue(array2DEquals(grid.matrix, target), "\n" + str(grid.matrix) + "\n" + str(target))
+        self.assertTrue(has_moved)
+        self.assertEqual(24, score)
 
         tab = np.array(
             [[2,2,2,4,0,0],
@@ -179,8 +193,10 @@ class TestMoves(unittest.TestCase):
              [4,4,2,4,2,4]]
         )
         grid = GameGrid(0,0,tab)
-        grid.moveDown()
+        score, has_moved = grid.moveDown()
         self.assertTrue(array2DEquals(grid.matrix, target), "\n" + str(grid.matrix) + "\n" + str(target))
+        self.assertTrue(has_moved)
+        self.assertEqual(12, score)
 
         tab = np.array(
             [[2,2,0,4],
@@ -194,9 +210,11 @@ class TestMoves(unittest.TestCase):
              [2,4,2,4],
              [4,2,4,4]]
         )
-        grid = GameGrid(0,0,tab)
-        grid.moveDown()
+        grid = GameGrid(0, 0, tab)
+        score, has_moved = grid.moveDown()
         self.assertTrue(array2DEquals(grid.matrix, target), "\n" + str(grid.matrix) + "\n" + str(target))
+        self.assertTrue(has_moved)
+        self.assertEqual(8, score)
 
 
 class TestCanMove(unittest.TestCase):

@@ -48,7 +48,7 @@ class GameGrid2048(BaseGrid2048):
                     if _at[_row, _column] == _at[_row, _column_next]:
                         self.matrix[_row, _column] += 1
                         self.matrix[_row, _column_next] = 0
-                        score += 2 << _at[_row, _column]
+                        score += 1 << _at[_row, _column]
                         have_moved = True
                     break
 
@@ -63,7 +63,7 @@ class GameGrid2048(BaseGrid2048):
                     break
 
             # Move tiles
-            for _column in range(_first_empty_column+1, self.columns):
+            for _column in range(_first_empty_column + 1, self.columns):
                 if _at[_row, _column] > 0:
                     self.matrix[_row, _first_empty_column] = _at[_row, _column]
                     _at[_row, _column] = 0
@@ -71,7 +71,7 @@ class GameGrid2048(BaseGrid2048):
                     have_moved = True
 
         self.score += score
-        return self.score, have_moved
+        return score, have_moved
 
     def moveRight(self):
         _at = self.matrix
@@ -89,7 +89,7 @@ class GameGrid2048(BaseGrid2048):
                     if _at[_row, _column] == _at[_row, _column_next]:
                         self.matrix[_row, _column] += 1
                         self.matrix[_row, _column_next] = 0
-                        score += 2 << _at[_row, _column]
+                        score += 1 << _at[_row, _column]
                         have_moved = True
                     break
 
@@ -112,7 +112,7 @@ class GameGrid2048(BaseGrid2048):
                     have_moved = True
 
         self.score += score
-        return self.score, have_moved
+        return score, have_moved
 
     def moveUp(self):
         _at = self.matrix
@@ -131,7 +131,7 @@ class GameGrid2048(BaseGrid2048):
                     if _at[_row, _column] == _at[_row_next, _column]:
                         self.matrix[_row, _column] += 1
                         self.matrix[_row_next, _column] = 0
-                        score += 2 << _at[_row, _column]
+                        score += 1 << _at[_row, _column]
                         have_moved = True
                     break
 
@@ -154,7 +154,7 @@ class GameGrid2048(BaseGrid2048):
                     have_moved = True
 
         self.score += score
-        return self.score, have_moved
+        return score, have_moved
 
     def moveDown(self):
         _at = self.matrix
@@ -173,7 +173,7 @@ class GameGrid2048(BaseGrid2048):
                     if _at[_row, _column] == _at[_row_next, _column]:
                         self.matrix[_row, _column] += 1
                         self.matrix[_row_next, _column] = 0
-                        score += 2 << _at[_row, _column]
+                        score += 1 << _at[_row, _column]
                         have_moved = True
                     break
 
@@ -196,7 +196,7 @@ class GameGrid2048(BaseGrid2048):
                     have_moved = True
 
         self.score += score
-        return self.score, have_moved
+        return score, have_moved
 
     ###############
     # Can move
