@@ -110,8 +110,5 @@ class Qlearning(BaseAi):
     def set_end_states_in_q_values(self):
         for grid in GameGrid2048.getFinalStates():
             state = self.GetState(grid)
-            print(grid)
-
-            # self.q_values.iloc[state, :] = [REWARD_END_GAME, REWARD_END_GAME, REWARD_END_GAME, REWARD_END_GAME]
-        # self.SaveStates("end_states")
+            self.q_values.iloc[state, :] = [REWARD_END_GAME, REWARD_END_GAME, REWARD_END_GAME, REWARD_END_GAME]
 
