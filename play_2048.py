@@ -33,7 +33,7 @@ class PlayGame:
                 nb_iter += 1
                 self.playGame(nb_iter)
 
-                if nb_iter % 100000 == 0:
+                if nb_iter % 500000 == 0:
                     self._ai.SaveStates(file_pattern)
         except KeyboardInterrupt:
             pass

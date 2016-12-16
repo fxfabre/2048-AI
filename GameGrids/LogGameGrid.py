@@ -4,6 +4,7 @@
 import numpy as np
 import random
 import constants
+import itertools
 
 from GameGrids.baseGrid2048 import BaseGrid2048, array2DEquals
 
@@ -339,6 +340,25 @@ class GameGrid2048(BaseGrid2048):
 
     def getScore(self):
         return self.score
+
+    @staticmethod
+    def getFinalStates():
+        grid_size = constants.NB_ROWS * constants.NB_COLS
+        i = 0
+        for grid_values in itertools.product(range(1, constants.GRID_MAX_VAL), repeat=grid_size):
+            i += 1
+            if i % 50000 == 0:
+                print("State", i)
+
+            matrix = np.array(grid_values).reshape(constants.NB_ROWS, constants.NB_COLS)
+            grid = GameGrid2048(matrix=matrix)
+
+            if grid.canMergeUpDown():
+                continue
+            if grid.canMergeLeftRight():
+                continue
+
+            yield grid
 
     @property
     def max_value(self):

@@ -5,12 +5,16 @@ import os
 import random
 import pandas
 import logging
+import itertools
+
 from AI.ai_base import BaseAi
 from GameGrids.LogGameGrid import GameGrid2048
+import constants
 
 ALPHA = 0.5
 GAMMA = 1.0
 EPSILON = 0.8       # 1 means move at random
+REWARD_END_GAME = -1000000000.0
 
 
 class Qlearning(BaseAi):
@@ -74,9 +78,9 @@ class Qlearning(BaseAi):
         q_value_s_prime = self.q_values.iloc[s_prime, :].max()
 
         if has_moved:
-            reward = score
+            reward = 0
         else:
-            reward = -1000000000.0
+            reward = REWARD_END_GAME
 
         self._logger.debug("Update q values from {0}".format(self.q_values.iloc[s, a]))
         self.q_values.iloc[s, a] += ALPHA * (reward + GAMMA * q_value_s_prime - q_value_s)
@@ -102,4 +106,12 @@ class Qlearning(BaseAi):
             self._logger.info("Read Q values file from " + file_name)
             self.q_values = pandas.read_csv(file_name, sep='|', index_col=0)
         assert current_shape == self.q_values.shape
+
+    def set_end_states_in_q_values(self):
+        for grid in GameGrid2048.getFinalStates():
+            state = self.GetState(grid)
+            print(grid)
+
+            # self.q_values.iloc[state, :] = [REWARD_END_GAME, REWARD_END_GAME, REWARD_END_GAME, REWARD_END_GAME]
+        # self.SaveStates("end_states")
 
