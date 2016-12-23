@@ -13,7 +13,7 @@ class GameGrid2048(BaseGrid2048):
 
     def clone(self):
         return self
-        return GameGrid2048(matrix=self.matrix, score=self.score)
+        return GameGrid2048(matrix=self.matrix)
 
     ###############
     # Moves
@@ -71,7 +71,6 @@ class GameGrid2048(BaseGrid2048):
                     _first_empty_column += 1
                     have_moved = True
 
-        self.score += score
         return score, have_moved
 
     def moveRight(self):
@@ -112,7 +111,6 @@ class GameGrid2048(BaseGrid2048):
                     _first_empty_column -= 1
                     have_moved = True
 
-        self.score += score
         return score, have_moved
 
     def moveUp(self):
@@ -154,7 +152,6 @@ class GameGrid2048(BaseGrid2048):
                     _first_empty_row += 1
                     have_moved = True
 
-        self.score += score
         return score, have_moved
 
     def moveDown(self):
@@ -196,7 +193,6 @@ class GameGrid2048(BaseGrid2048):
                     _first_empty_row -= 1
                     have_moved = True
 
-        self.score += score
         return score, have_moved
 
     ###############
@@ -337,9 +333,6 @@ class GameGrid2048(BaseGrid2048):
 
     def toIntMatrix(self):
         return self.matrix
-
-    def getScore(self):
-        return self.score
 
     @staticmethod
     def getFinalStates():

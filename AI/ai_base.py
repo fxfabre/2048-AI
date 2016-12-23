@@ -10,6 +10,6 @@ class BaseAi:
     def GetMove(self, current_grid, history):
         return None
 
-    def RecordState(self, old_state, current_grid, next_move, score, total_score, has_moved):
+    def RecordState(self, old_state, current_grid, next_move, score, has_moved):
         return
 

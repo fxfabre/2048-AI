@@ -3,9 +3,9 @@
 
 import sys
 
-NB_ROWS = 3
-NB_COLS = 3
-GRID_MAX_VAL = 6
+NB_ROWS = 2
+NB_COLS = 2
+GRID_MAX_VAL = 5
 
 if sys.platform == 'linux':
     SAVE_DIR = '/tmp'

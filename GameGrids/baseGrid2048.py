@@ -5,23 +5,34 @@ import numpy as np
 
 
 class BaseGrid2048:
-    def __init__(self, nbRows=0, nbColumns=0, matrix=None, score=0):
-        self.rows = nbRows
-        self.columns = nbColumns
+    def __init__(self, nb_rows=0, nb_columns=0, matrix=None):
         self.isGameOver = False
-        self.score = score
 
         if matrix is not None:
-            self.rows = matrix.shape[0]
-            self.columns = matrix.shape[1]
             self.matrix = np.array(matrix, dtype=int)
         else:
-            self.matrix = np.zeros([nbRows, nbColumns], dtype=int)
+            self.matrix = np.zeros([nb_rows, nb_columns], dtype=int)
             self.add_random_tile()
             self.add_random_tile()
 
     def add_random_tile(self):
         raise NotImplementedError()
+
+    @property
+    def totalScore(self):
+        return self.matrix.sum()
+
+    @property
+    def rows(self):
+        if self.matrix is None:
+            return 0
+        return self.matrix.shape[0]
+
+    @property
+    def columns(self):
+        if self.matrix is None:
+            return 0
+        return self.matrix.shape[1]
 
 
 def array2DEquals(matrix_a, matrix_b):

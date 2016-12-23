@@ -8,7 +8,7 @@ from GameGrids.baseGrid2048 import BaseGrid2048, array2DEquals
 class gameGridLight(BaseGrid2048):
 
     def clone(self):
-        return gameGridLight(matrix=self.matrix, score=self.score)
+        return gameGridLight(matrix=self.matrix)
 
     ###############
     # Moves
@@ -67,7 +67,6 @@ class gameGridLight(BaseGrid2048):
                     _first_empty_column += 1
                     have_moved = True
 
-        self.score += score
         return score, have_moved
 
     def moveRight(self):
@@ -108,7 +107,6 @@ class gameGridLight(BaseGrid2048):
                     _first_empty_column -= 1
                     have_moved = True
 
-        self.score += score
         return score, have_moved
 
     def moveUp(self):
@@ -150,7 +148,6 @@ class gameGridLight(BaseGrid2048):
                     _first_empty_row += 1
                     have_moved = True
 
-        self.score += score
         return score, have_moved
 
     def moveDown(self):
@@ -192,7 +189,6 @@ class gameGridLight(BaseGrid2048):
                     _first_empty_row -= 1
                     have_moved = True
 
-        self.score += score
         return score, have_moved
 
     ###############
@@ -334,9 +330,6 @@ class gameGridLight(BaseGrid2048):
 
     def toIntMatrix(self):
         return self.matrix
-
-    def getScore(self):
-        return self.score
 
     def get_empty_tiles(self):
         for col in self.columns:
