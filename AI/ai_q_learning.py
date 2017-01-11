@@ -89,23 +89,19 @@ class Qlearning(BaseAi):
             value_to_add = self.alpha * (self.reward_move + self.gamma * q_value_s_prime - q_value_s)
             self.q_values.iloc[s, a] += value_to_add
             self._logger.debug("To state %s, value %s", s_prime, self.q_values.iloc[s, a])
-            # if value_to_add > 0:
-            #     self._logger.info("Update state with positive val. Stop")
-            #     raise Exception("Value updated")
         else:
             self._logger.debug("Update q values from state %s, value %s", s, self.q_values.iloc[s, :])
-            self.q_values.iloc[s, 0] += self.alpha * (self.reward_end_game - self.q_values.iloc[s, 0])
-            self.q_values.iloc[s, 1] += self.alpha * (self.reward_end_game - self.q_values.iloc[s, 1])
-            self.q_values.iloc[s, 2] += self.alpha * (self.reward_end_game - self.q_values.iloc[s, 2])
-            self.q_values.iloc[s, 3] += self.alpha * (self.reward_end_game - self.q_values.iloc[s, 3])
+            values_to_add = self.alpha * (self.reward_end_game - self.q_values.iloc[s, :])
+            value_to_add = values_to_add.max()
+            self.q_values.iloc[s, :] += values_to_add
             self._logger.debug("To state %s, value %s", s, self.q_values.iloc[s, :])
+        return abs(value_to_add)
 
     def GetState(self, grid):
         total = 0
         for i in range(grid.columns):
             for j in range(grid.rows):
                 total = total * grid.max_value + grid.matrix[i, j]
-
         return total
 
     def SaveStates(self, name):

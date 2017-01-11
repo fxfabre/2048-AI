@@ -48,6 +48,7 @@ class PlayGame:
         nb_iter = 0
         total_score = 0
         has_moved = True
+        diff_update = 0
 
         while has_moved:
             nb_iter += 1
@@ -76,10 +77,10 @@ class PlayGame:
                 self._logger.info("Stop iterations, values too big for the model")
                 has_moved = False
             else:
-                self._ai.RecordState(old_state, current_grid, next_move, score, has_moved)
+                diff_update += self._ai.RecordState(old_state, current_grid, next_move, score, has_moved)
 
-        self._logger.info("{2:>3} Game over in {0} iterations, score = {1}".format(
-            nb_iter, total_score, play_number))
+        self._logger.info("{2:>3} Game over in {0:>3} iterations, score = {1:>4}, diff = {3:>9}".format(
+            nb_iter, total_score, play_number, int(diff_update)))
 
     def init_logger(self):
         log_filename = os.path.join('/tmp', "2048_" + str(int(time.time())) + ".log")
