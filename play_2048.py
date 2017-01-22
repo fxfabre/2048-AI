@@ -15,16 +15,11 @@ class PlayGame:
 
     def __init__(self):
         self._logger = self.init_logger()
-
-        self._history = []
         self._ai = Qlearning()
-
-        self._ai.init(constants.NB_ROWS, constants.NB_COLS, constants.GRID_MAX_VAL)
-        print(self._ai.q_values.shape)
 
     def Simulate(self):
         file_pattern = os.path.join(constants.SAVE_DIR, '{0}_{1}'.format(constants.NB_ROWS, constants.NB_COLS))
-        self._ai.LoadStates(file_pattern)
+        self._ai.init(constants.NB_ROWS, constants.NB_COLS, constants.GRID_MAX_VAL, file_pattern)
 
         try:
             nb_iter = 0
@@ -34,7 +29,9 @@ class PlayGame:
 
                 if nb_iter % 500000 == 0:
                     self._ai.SaveStates(file_pattern)
-                # raise Exception("End game")
+                if self._logger.isEnabledFor(logging.DEBUG):
+                    raise Exception("end game")
+
         except KeyboardInterrupt:
             pass
         except Exception as e:
@@ -46,41 +43,39 @@ class PlayGame:
         current_grid = GameGrid2048(nb_rows=constants.NB_ROWS, nb_columns=constants.NB_COLS)
 
         nb_iter = 0
-        total_score = 0
-        has_moved = True
+        is_game_over = False
         diff_update = 0
+        current_state = self._ai.GetState(current_grid)
 
-        while has_moved:
+        while not is_game_over:  # current_grid.is_game_over():
             nb_iter += 1
-
             self._logger.debug('')
             self._logger.debug("=" * 30)
             self._logger.debug("New loop")
             self._logger.debug("=" * 30)
-            self._logger.debug('\n%s', current_grid)
+            current_grid.print(logging.DEBUG)
 
-            old_state = self._ai.GetState(current_grid)
-            self._logger.debug("current state : %s",old_state)
+            old_state = current_state
 
-            next_move = self._ai.GetMove(current_grid, self._history)
-            score, has_moved = current_grid.moveTo(next_move)
-            self._logger.debug("Moving to %s, score : %s, has moved : %d", next_move, score, has_moved)
-            # self._history.append({'grid': current_grid.clone(), 'score': score, 'action': next_move})
+            move_dir = self._ai.GetMove(current_grid, [])
+            current_grid.moveTo(move_dir)
+            current_state = self._ai.GetState(current_grid)
+            self._logger.debug("Moving %s, from %d to %d", move_dir, old_state, current_state)
 
-            total_score += score
-            self._logger.debug('\n%s', current_grid)
-
+            current_grid.print(logging.DEBUG)
             current_grid.add_random_tile()
-            self._logger.debug("Random tile added \n %s", current_grid)
+            current_grid.print(logging.DEBUG)
+            current_state = self._ai.GetState(current_grid)
 
             if current_grid.matrix.max() >= constants.GRID_MAX_VAL:
                 self._logger.info("Stop iterations, values too big for the model")
-                has_moved = False
+                is_game_over = True
             else:
-                diff_update += self._ai.RecordState(old_state, current_grid, next_move, score, has_moved)
+                diff_update += self._ai.RecordState(old_state, current_state, move_dir, is_game_over)
+                is_game_over = current_grid.is_game_over()
 
-        self._logger.info("{2:>3} Game over in {0:>3} iterations, score = {1:>4}, diff = {3:>9}".format(
-            nb_iter, total_score, play_number, int(diff_update)))
+        self._logger.info("{0:>3} Game over in {1:>3} iterations, diff = {2:>9}".format(
+            play_number, nb_iter, int(diff_update)))
 
     def init_logger(self):
         log_filename = os.path.join('/tmp', "2048_" + str(int(time.time())) + ".log")

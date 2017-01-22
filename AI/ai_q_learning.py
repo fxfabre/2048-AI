@@ -13,9 +13,9 @@ import constants
 
 ALPHA = 0.5
 GAMMA = 1.0
-EPSILON = 0.8       # 1 means move at random
-REWARD_MOVE = 0
-REWARD_END_GAME = -1000000000.0
+EPSILON = 0.2       # 1 means move at random
+REWARD_MOVE = 1.0
+REWARD_END_GAME = -10.0
 
 
 class Qlearning(BaseAi):
@@ -34,36 +34,48 @@ class Qlearning(BaseAi):
         self.reward_move = REWARD_MOVE
         self.reward_end_game = REWARD_END_GAME
 
-    def init(self, nb_row, nb_col, max_value):
+    def init(self, nb_row, nb_col, max_value, file_pattern):
         nb_box      = nb_row * nb_col
         nb_states   = max_value ** nb_box
-        # nb_actions  = 4
-        # self.q_values = pandas.DataFrame(np.zeros([nb_states, nb_actions]), columns=self._moves_list)
         self.q_values = pandas.DataFrame(index=range(nb_states), columns=self._moves_list)
-        self.q_values.fillna(0, inplace=True)
-        self._logger.info('Init Q learning success :', self.q_values.shape)
+        if not self.LoadStates(file_pattern):
+            self.q_values.fillna(0, inplace=True)
+            self.init_end_states()
+        self._logger.info('Init Q learning success : %s', self.q_values.shape)
+
+    def init_end_states(self):
+        self._logger.debug("Start init end states")
+        for grid in GameGrid2048.getFinalStates():
+            state = self.GetState(grid)
+            self.q_values.iloc[state, :] = [REWARD_END_GAME] * 4
+        self._logger.debug("Init end states done")
 
     def GetMove(self, current_grid : GameGrid2048, history):
         available_moves = [move for move in self._moves_list if current_grid.canMove(move)]
-        self._logger.debug('Available moves : %s', available_moves)
+
+        # Set bad Q value for impossible moves
+        current_state = self.GetState(current_grid)
+        for index, move in enumerate(self._moves_list):
+            if move not in available_moves:
+                self.q_values.iloc[current_state, index] = REWARD_END_GAME
+
+        # self._logger.debug('Available moves : %s', available_moves)
         if len(available_moves) == 1:
-            self._logger.debug("One move available : %s", available_moves[0])
+            # self._logger.debug("One move available : %s", available_moves[0])
             return available_moves[0]       # Don't waste time running AI
         if len(available_moves) == 0:
-            self._logger.debug("No move available.")
+            # self._logger.debug("No move available.")
             return self._moves_list[0]      # whatever, it wont't move !
 
-        if random.uniform(0, 1) < self.epsilon:
-            self._logger.debug("Randomly choose move")
+        if (self.epsilon > 0) and (random.uniform(0, 1) < self.epsilon):
+            # self._logger.debug("Randomly choose move")
             return random.choice(available_moves)
 
-        current_state = self.GetState(current_grid)
         current_q_val = self.q_values.iloc[current_state, :][available_moves]
-        self._logger.debug("Q values for current state :\n%s", current_q_val)
 
         max_val = current_q_val.max()
         optimal_moves = current_q_val[current_q_val == max_val].index.tolist()
-        self._logger.debug("Optimal moves :\n%s", optimal_moves)
+        # self._logger.debug("Optimal moves : %s", optimal_moves)
 
         if len(optimal_moves) == 0:     # shouldn't happen
             raise Exception("No optimal move in Get move function")
@@ -73,36 +85,23 @@ class Qlearning(BaseAi):
         else:
             return random.choice(optimal_moves)
 
-    def RecordState(self, old_state, current_grid, next_move, score, has_moved):
-        if next_move == '':
-            next_move = random.choice(self._moves_list)
+    def RecordState(self, s, s_prime, move_dir, is_game_over):
+        if move_dir == '':
+            move_dir = random.choice(self._moves_list)
 
-        s = old_state
+        a = self._moves_list.index(move_dir)
+        q_value_s = self.q_values.iloc[s, a]
+        q_value_s_prime = self.q_values.iloc[s_prime, :].max()
 
-        if has_moved:
-            a = self._moves_list.index(next_move)
-            q_value_s = self.q_values.iloc[s, a]
-            s_prime = self.GetState(current_grid)
-            q_value_s_prime = self.q_values.iloc[s_prime, :].max()
+        self._logger.debug("Update q values from state %s, move %s to state %s", s, move_dir, s_prime)
+        self._logger.debug("\n%s", self.q_values.iloc[s, :])
 
-            self._logger.debug("Update q values from state %s, value %s", s, self.q_values.iloc[s, a])
-            value_to_add = self.alpha * (self.reward_move + self.gamma * q_value_s_prime - q_value_s)
-            self.q_values.iloc[s, a] += value_to_add
-            self._logger.debug("To state %s, value %s", s_prime, self.q_values.iloc[s, a])
-        else:
-            self._logger.debug("Update q values from state %s, value %s", s, self.q_values.iloc[s, :])
-            values_to_add = self.alpha * (self.reward_end_game - self.q_values.iloc[s, :])
-            value_to_add = values_to_add.max()
-            self.q_values.iloc[s, :] += values_to_add
-            self._logger.debug("To state %s, value %s", s, self.q_values.iloc[s, :])
+        value_to_add = self.alpha * (self.reward_move + self.gamma * q_value_s_prime - q_value_s)
+        self.q_values.iloc[s, a] += value_to_add
+
+        self._logger.debug("Diff : %s => new value %s : %s", value_to_add, s, self.q_values.iloc[s, a])
+        self._logger.debug("\n%s", self.q_values.iloc[s_prime, :])
         return abs(value_to_add)
-
-    def GetState(self, grid):
-        total = 0
-        for i in range(grid.columns):
-            for j in range(grid.rows):
-                total = total * grid.max_value + grid.matrix[i, j]
-        return total
 
     def SaveStates(self, name):
         file_name = name + '_qValues.csv'
@@ -115,10 +114,14 @@ class Qlearning(BaseAi):
         if os.path.exists(file_name):
             self._logger.info("Read Q values file from %s", file_name)
             self.q_values = pandas.read_csv(file_name, sep='|', index_col=0)
-        assert current_shape == self.q_values.shape
+            self._moves_list = self.q_values.columns.tolist()
+            assert current_shape == self.q_values.shape
+            return True
+        return False
 
-    def set_end_states_in_q_values(self):
-        for grid in GameGrid2048.getFinalStates():
-            state = self.GetState(grid)
-            self.q_values.iloc[state, :] = [REWARD_END_GAME, REWARD_END_GAME, REWARD_END_GAME, REWARD_END_GAME]
-
+    def GetState(self, grid):
+        total = 0
+        for i in range(grid.columns):
+            for j in range(grid.rows):
+                total = total * grid.max_value + grid.matrix[i, j]
+        return total

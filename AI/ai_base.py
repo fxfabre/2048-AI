@@ -4,12 +4,12 @@
 
 class BaseAi:
 
-    def init(self, nb_row, nb_col, max_value):
+    def init(self, nb_row, nb_col, max_value, file_pattern):
         return
 
     def GetMove(self, current_grid, history):
         return None
 
-    def RecordState(self, old_state, current_grid, next_move, score, has_moved):
+    def RecordState(self, s, s_prime, move_dir, is_game_over):
         return
 

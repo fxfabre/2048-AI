@@ -12,8 +12,7 @@ from GameGrids.baseGrid2048 import BaseGrid2048, array2DEquals
 class GameGrid2048(BaseGrid2048):
 
     def clone(self):
-        return self
-        return GameGrid2048(matrix=self.matrix)
+        return GameGrid2048(matrix=self.matrix.copy())
 
     ###############
     # Moves
@@ -340,8 +339,8 @@ class GameGrid2048(BaseGrid2048):
         i = 0
         for grid_values in itertools.product(range(1, constants.GRID_MAX_VAL), repeat=grid_size):
             i += 1
-            if i % 50000 == 0:
-                print("State", i)
+            if i % 10000 == 0:
+                print("Get final state number", i)
 
             matrix = np.array(grid_values).reshape(constants.NB_ROWS, constants.NB_COLS)
             grid = GameGrid2048(matrix=matrix)
@@ -353,16 +352,21 @@ class GameGrid2048(BaseGrid2048):
 
             yield grid
 
-    @property
-    def max_value(self):
-        return constants.GRID_MAX_VAL or (self.rows + self.columns + 1)
+    def print(self, log_level):
+        if self.logger.isEnabledFor(log_level):
+            print(self)
 
     def __str__(self):
+        state_val = 0
+        for i in range(self.columns):
+            for j in range(self.rows):
+                state_val = state_val * self.max_value + self.matrix[i, j]
+
         realValues = np.zeros([self.rows, self.columns], dtype=int)
         for i in range(self.rows):
             for j in range(self.columns):
                 realValues[i, j] = 1 << self.matrix[i, j]
-        return str(realValues).replace('[1 ', '[. ').replace(' 1 ', ' . ').replace(' 1]', ' .]')
+        return str(realValues).replace('[1 ', '[. ').replace(' 1 ', ' . ').replace(' 1]', ' .]') + '  ' + str(state_val)
 
     def __eq__(self, other):
         return array2DEquals(self.matrix, other.matrix)
