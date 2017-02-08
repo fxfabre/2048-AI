@@ -11,9 +11,6 @@ from GameGrids.baseGrid2048 import BaseGrid2048, array2DEquals
 
 class GameGrid2048(BaseGrid2048):
 
-    def clone(self):
-        return GameGrid2048(matrix=self.matrix.copy())
-
     ###############
     # Moves
     ###############
@@ -287,12 +284,12 @@ class GameGrid2048(BaseGrid2048):
                 return False
         return True
 
-    def canAddTile(self, x, y):
+    def can_add_tile(self, x, y):
         return self.matrix[x,y] == 0
 
-    def addTile(self, x, y, tileToAdd):
-        if self.canAddTile(x, y):
-            self.matrix[x, y] = tileToAdd
+    def add_tile(self, x, y, tile_to_add):
+        if self.can_add_tile(x, y):
+            self.matrix[x, y] = tile_to_add
         else:
             print("Unable to add tile at ({0}, {1})".format(x, y))
 
@@ -330,20 +327,24 @@ class GameGrid2048(BaseGrid2048):
         random_pos = random.choice(available_box)
         return random_pos // self.columns, random_pos % self.columns
 
-    def toIntMatrix(self):
+    def to_int_matrix(self):
         return self.matrix
 
     @staticmethod
-    def getFinalStates():
+    def get_all_states(min_val=0):
         grid_size = constants.NB_ROWS * constants.NB_COLS
-        i = 0
-        for grid_values in itertools.product(range(1, constants.GRID_MAX_VAL), repeat=grid_size):
-            i += 1
-            if i % 10000 == 0:
-                print("Get final state number", i)
-
+        for grid_values in itertools.product(range(min_val, constants.GRID_MAX_VAL), repeat=grid_size):
             matrix = np.array(grid_values).reshape(constants.NB_ROWS, constants.NB_COLS)
             grid = GameGrid2048(matrix=matrix)
+            yield grid
+
+    @staticmethod
+    def get_final_states():
+        i = 0
+        for grid in GameGrid2048.get_all_states(1):
+            i += 1
+            if i % 100 == 0:
+                print("Get final state number", i)
 
             if grid.canMergeUpDown():
                 continue

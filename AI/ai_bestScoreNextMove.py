@@ -15,7 +15,7 @@ class ai_bestScoreNextMove:
         if gameBoard.grid.isGameOver:
             return ''
 
-        gridMatrix = gameBoard.grid.toIntMatrix()
+        gridMatrix = gameBoard.grid.to_int_matrix()
 
         best_score = -1
         best_move  = ''

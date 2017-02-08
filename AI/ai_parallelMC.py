@@ -18,7 +18,7 @@ class ai_parallelMC:
         self.pool = multiprocessing.Pool(processes=NB_PROCESS)
 
     def move_next(self, gameBoard, gridHistory, scoreHistory):
-        grid = gameBoard.grid.toIntMatrix()
+        grid = gameBoard.grid.to_int_matrix()
         params = [ [direction, grid] for direction in AVAILABLE_MOVES]
 
         scores = self.pool.map(runSimulation, params)

@@ -10,6 +10,6 @@ class BaseAi:
     def GetMove(self, current_grid, history):
         return None
 
-    def RecordState(self, s, s_prime, move_dir, is_game_over):
+    def RecordState(self, s, s_prime, move_dir):
         return
 

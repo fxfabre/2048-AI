@@ -7,6 +7,7 @@ import constants
 
 
 class BaseGrid2048:
+
     def __init__(self, nb_rows=0, nb_columns=0, matrix=None):
         self.logger = logging.getLogger(__name__)
         self.isGameOver = False
@@ -18,8 +19,64 @@ class BaseGrid2048:
             self.add_random_tile()
             self.add_random_tile()
 
+    def clone(self):
+        return type(self)(matrix=self.matrix.copy())
+
     def add_random_tile(self):
         raise NotImplementedError()
+
+    # region Transformations / symmetry
+    def run_transfo(self, transfo_name):
+        if transfo_name is None:
+            return self
+
+        transformations = {
+            'symetry_axis_x': self.symetry_axis_x,
+            'symetry_axis_y': self.symetry_axis_y,
+            'rotate_90'     : self.rotate_90,
+            'rotate_180'    : self.rotate_180,
+            'rotate_270'    : self.rotate_270,
+        }
+        return transformations[transfo_name]
+
+    def symetry_axis_x(self):
+        for col in range(self.columns):
+            for i in range(self.rows // 2):
+                j = self.rows - i - 1
+                self.matrix[i, col], self.matrix[j, col] = self.matrix[j, col], self.matrix[i, col]
+        return self
+
+    def symetry_axis_y(self):
+        for row in range(self.rows):
+            for i in range(self.columns // 2):
+                j = self.columns - i - 1
+                self.matrix[row, i], self.matrix[row, j] = self.matrix[row, j], self.matrix[row, i]
+        return self
+
+    def rotate_90(self):
+        assert self.rows == self.columns
+        self.matrix = np.rot90(self.matrix)
+        return self
+
+    def rotate_180(self):
+        row = self.rows
+        col = self.columns
+        assert self.rows == self.columns
+        self.matrix = self.matrix.reshape(row * col)[::-1].reshape([row, col])
+        return self
+
+    def rotate_270(self):
+        assert self.rows == self.columns
+        new_matrix = np.zeros([self.columns, self.rows])
+        for x in range(self.rows):
+            for y in range(self.columns):
+                new_matrix[y, self.columns - x - 1] = self.matrix[x, y]
+        self.matrix = new_matrix
+        return self
+
+    def identity(self):
+        return self
+    # endregion
 
     @property
     def max_value(self):
@@ -50,4 +107,3 @@ def array2DEquals(matrix_a, matrix_b):
             if matrix_a[i,j] != matrix_b[i,j]:
                 return False
     return True
-

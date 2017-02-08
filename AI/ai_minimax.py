@@ -20,7 +20,7 @@ class ai_minimax:
 
 #        print("\n\n_______________________________________________\n\n" )
 
-        gridMatrix = gameBoard.grid.toIntMatrix()
+        gridMatrix = gameBoard.grid.to_int_matrix()
 #        print(gridMatrix)
         grid = GGL.gameGridLight(matrix=gridMatrix)
 
@@ -71,7 +71,7 @@ def evalAddTile(par_grid: GGL.gameGridLight, deep: int):
             for tileToAdd in [2,4]:
 #                print("Add tile {0} at ({1}, {2})".format(tileToAdd, x, y))
                 loc_grid = par_grid.clone()
-                loc_grid.addTile(x, y, tileToAdd)
+                loc_grid.add_tile(x, y, tileToAdd)
 #                print("Matrix")
                 _, score = evalMoveTo(loc_grid, deep) # Yes, keep same deep here.
 #                print("Add tile {0} at ({1}, {2}) => {3} pts".format(tileToAdd, x, y, score))

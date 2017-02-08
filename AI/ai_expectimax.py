@@ -18,7 +18,7 @@ class ai_expectimax:
         if gameBoard.grid.isGameOver:
             return ''
 
-        gridMatrix = gameBoard.grid.toIntMatrix()
+        gridMatrix = gameBoard.grid.to_int_matrix()
         grid = GGL.gameGridLight(matrix=gridMatrix)
 
         direction, _ = evalMoveTo(grid, DEEP)
@@ -60,7 +60,7 @@ def evalAddTile(par_grid: GGL.gameGridLight, deep: int):
                 continue
             for tileToAdd in [2,4]:
                 loc_grid = par_grid.clone()
-                loc_grid.addTile(x, y, tileToAdd)
+                loc_grid.add_tile(x, y, tileToAdd)
                 _, score = evalMoveTo(loc_grid, deep) # Yes, keep same deep here.
                 scores.append(score)
 

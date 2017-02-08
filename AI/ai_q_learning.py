@@ -5,11 +5,9 @@ import os
 import random
 import pandas
 import logging
-import itertools
 
 from AI.ai_base import BaseAi
 from GameGrids.LogGameGrid import GameGrid2048
-import constants
 
 ALPHA = 0.5
 GAMMA = 1.0
@@ -45,7 +43,7 @@ class Qlearning(BaseAi):
 
     def init_end_states(self):
         self._logger.debug("Start init end states")
-        for grid in GameGrid2048.getFinalStates():
+        for grid in GameGrid2048.get_final_states():
             state = self.GetState(grid)
             self.q_values.iloc[state, :] = [REWARD_END_GAME] * 4
         self._logger.debug("Init end states done")
@@ -54,6 +52,7 @@ class Qlearning(BaseAi):
         available_moves = [move for move in self._moves_list if current_grid.canMove(move)]
 
         # Set bad Q value for impossible moves
+        # TODO : move in init
         current_state = self.GetState(current_grid)
         for index, move in enumerate(self._moves_list):
             if move not in available_moves:
@@ -85,7 +84,7 @@ class Qlearning(BaseAi):
         else:
             return random.choice(optimal_moves)
 
-    def RecordState(self, s, s_prime, move_dir, is_game_over):
+    def RecordState(self, s, s_prime, move_dir):
         if move_dir == '':
             move_dir = random.choice(self._moves_list)
 
@@ -125,3 +124,42 @@ class Qlearning(BaseAi):
             for j in range(grid.rows):
                 total = total * grid.max_value + grid.matrix[i, j]
         return total
+
+    def get_symetric_states_for_grid(self, grid : GameGrid2048):
+        equivalent_states = {}
+        current_state = self.GetState(grid)
+        equivalent_states[current_state] = 0
+
+        for tx in ['symetry_axis_x', None]:
+            for ty in ['symetry_axis_y', None]:
+                for rotate in ['rotate_90', 'rotate_180', 'rotate_270', None]:
+                    transformations = []
+                    loc_grid = grid.clone()
+                    if not(tx is None):
+                        loc_grid.run_transfo(tx)
+                        transformations.append(tx)
+                    if not(ty is None):
+                        loc_grid.run_transfo(ty)
+                        transformations.append(ty)
+                    if not(rotate is None):
+                        loc_grid.run_transfo(rotate)
+                        transformations.append(rotate)
+
+                    state = self.GetState(loc_grid)
+                    equivalent_states[state] = min(len(transformations), equivalent_states.get(state, '999'))
+        return equivalent_states
+
+    def get_symetric_states(self):
+        states = {}
+        for grid in GameGrid2048.get_all_states():
+            state = self.GetState(grid)
+            equivalent_states = self.get_symetric_states_for_grid(grid)
+            min_state = min(equivalent_states.keys())
+            states[state] = {min_state : equivalent_states[min_state]}
+        keys = states.keys()
+        keys = list(keys)
+        keys.sort()
+        for key in keys:
+            val = states[key]
+            print(key, val)
+

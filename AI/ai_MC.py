@@ -21,7 +21,7 @@ class ai_MCsimulation:
         deepSimulation = 6
 
         simuationScores = SimulationNode()
-        gridMatrix = gameBoard.grid.toIntMatrix()
+        gridMatrix = gameBoard.grid.to_int_matrix()
 
         for i in range(nbSimulation):
             grid = GGL.gameGridLight(matrix=gridMatrix)
