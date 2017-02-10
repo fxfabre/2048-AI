@@ -126,6 +126,10 @@ class Qlearning(BaseAi):
         return total
 
     def get_symetric_states_for_grid(self, grid : GameGrid2048):
+        """
+        :param grid: dict(state : nb_transfo)
+        :return:
+        """
         equivalent_states = {}
         current_state = self.GetState(grid)
         equivalent_states[current_state] = 0
@@ -146,20 +150,23 @@ class Qlearning(BaseAi):
                         transformations.append(rotate)
 
                     state = self.GetState(loc_grid)
-                    equivalent_states[state] = min(len(transformations), equivalent_states.get(state, '999'))
+                    equivalent_states[state] = min(len(transformations), equivalent_states.get(state, 999))
         return equivalent_states
 
     def get_symetric_states(self):
         states = {}
+        nb_states_done = 0
         for grid in GameGrid2048.get_all_states():
             state = self.GetState(grid)
             equivalent_states = self.get_symetric_states_for_grid(grid)
-            min_state = min(equivalent_states.keys())
-            states[state] = {min_state : equivalent_states[min_state]}
-        keys = states.keys()
-        keys = list(keys)
-        keys.sort()
-        for key in keys:
-            val = states[key]
-            print(key, val)
+            states[state] = int(min(equivalent_states.keys()))
 
+            nb_states_done += 1
+            if nb_states_done % 10000 == 0:
+                print("State", nb_states_done)
+
+        nb_iso_transfo = 0
+        for k, v in states.items():
+            if k == v:
+                nb_iso_transfo += 1
+        print(nb_iso_transfo)

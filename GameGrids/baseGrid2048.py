@@ -37,7 +37,7 @@ class BaseGrid2048:
             'rotate_180'    : self.rotate_180,
             'rotate_270'    : self.rotate_270,
         }
-        return transformations[transfo_name]
+        return transformations[transfo_name]()
 
     def symetry_axis_x(self):
         for col in range(self.columns):
