@@ -19,13 +19,13 @@ class ai_expectimax:
             return ''
 
         gridMatrix = gameBoard.grid.to_int_matrix()
-        grid = GGL.gameGridLight(matrix=gridMatrix)
+        grid = GGL.GameGridLight(matrix=gridMatrix)
 
         direction, _ = evalMoveTo(grid, DEEP)
         return direction
 
 
-def evalMoveTo(par_grid: GGL.gameGridLight, deep: int):
+def evalMoveTo(par_grid: GGL.GameGridLight, deep: int):
     if deep == 0:
         return '', par_grid.getScore()
 
@@ -49,7 +49,7 @@ def evalMoveTo(par_grid: GGL.gameGridLight, deep: int):
 
     return best_direction, best_score
 
-def evalAddTile(par_grid: GGL.gameGridLight, deep: int):
+def evalAddTile(par_grid: GGL.GameGridLight, deep: int):
     if deep == 0:
         return par_grid.getScore()
 

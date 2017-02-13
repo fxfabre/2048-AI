@@ -23,15 +23,102 @@ class BaseGrid2048:
     def clone(self):
         return type(self)(matrix=self.matrix.copy())
 
-    def add_random_tile(self):
+    @staticmethod
+    def get_all_states(min_val=0):
         raise NotImplementedError()
 
+    # region State management
     def GetState(self):
         total = 0
         for i in range(self.columns):
             for j in range(self.rows):
                 total = total * self.max_value + self.matrix[i, j]
-        return total
+        return int(total)
+
+    def to_min_state(self):
+        current_state = self.GetState()
+        best_matrix = self.matrix
+        best_state = current_state
+
+        for tx in ['symetry_axis_x', None]:
+            for ty in ['symetry_axis_y', None]:
+                for rotate in ['rotate_90', 'rotate_180', 'rotate_270', None]:
+                    loc_grid = self.clone()
+                    if not(tx is None):
+                        loc_grid.run_transfo(tx)
+                    if not(ty is None):
+                        loc_grid.run_transfo(ty)
+                    if not(rotate is None):
+                        loc_grid.run_transfo(rotate)
+
+                    state = loc_grid.GetState()
+                    if state < best_state:
+                        best_state = state
+                        best_matrix = loc_grid.matrix
+
+        self.matrix = best_matrix
+        return self
+
+    def get_symetric_states_for_grid(self):
+        current_state = self.GetState()
+        equivalent_state = {
+            'nb_transfo'    : 0,
+            'transfos'      : [],
+            'state'         : current_state
+        }
+
+        for tx in ['symetry_axis_x', None]:
+            for ty in ['symetry_axis_y', None]:
+                for rotate in ['rotate_90', 'rotate_180', 'rotate_270', None]:
+                    transfos = []
+                    loc_grid = self.clone()
+                    if not(tx is None):
+                        loc_grid.run_transfo(tx)
+                        transfos.append(tx)
+                    if not(ty is None):
+                        loc_grid.run_transfo(ty)
+                        transfos.append(ty)
+                    if not(rotate is None):
+                        loc_grid.run_transfo(rotate)
+                        transfos.append(rotate)
+
+                    state = loc_grid.GetState()
+                    if state < equivalent_state['state']:
+                        equivalent_state = {
+                            'nb_transfo'    : len(transfos),
+                            'transfos'      : transfos,
+                            'state'         : state
+                        }
+                    elif (state == equivalent_state['state']) and (len(transfos) < equivalent_state['nb_transfo']):
+                        equivalent_state = {
+                            'nb_transfo'    : len(transfos),
+                            'transfos'      : transfos,
+                            'state'         : state
+                        }
+
+        return equivalent_state
+
+    def get_symetric_states(self):
+        states = {}
+        nb_states_done = 0
+        nb_iso_transfo = 0
+        for grid in self.get_all_states():
+            state = grid.GetState()
+            states[state] = BaseGrid2048.get_symetric_states_for_grid(grid)
+
+            if state == states[state]['state']:
+                nb_iso_transfo += 1
+
+            nb_states_done += 1
+            if nb_states_done % 10000 == 0:
+                print("State", nb_states_done)
+
+        for k, v in states.items():
+            print(k, v)
+
+        print(nb_iso_transfo)
+        return states
+    # endregion
 
     # region Transformations / symmetry
     def run_transfo(self, transfo_name):
@@ -64,6 +151,9 @@ class BaseGrid2048:
     def rotate_90(self):
         assert self.rows == self.columns
         self.matrix = np.rot90(self.matrix)
+        for col in range(self.columns):
+            for row in range(self.rows):
+                self.matrix[row, col] = int(self.matrix[row, col])
         return self
 
     def rotate_180(self):
@@ -149,6 +239,9 @@ class BaseGrid2048:
                     return True
         return self.canMergeLeftRight()
     # endregion
+
+    def add_random_tile(self):
+        raise NotImplementedError()
 
     def is_full(self):
         for i in range(self.rows):

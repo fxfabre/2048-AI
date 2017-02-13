@@ -8,7 +8,7 @@ NB_COLS = 2
 GRID_MAX_VAL = 5
 
 if sys.platform == 'linux':
-    SAVE_DIR = '/tmp'
+    SAVE_DIR = '.'
 else:
     SAVE_DIR = '.'
 

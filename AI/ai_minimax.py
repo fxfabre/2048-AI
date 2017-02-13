@@ -22,14 +22,14 @@ class ai_minimax:
 
         gridMatrix = gameBoard.grid.to_int_matrix()
 #        print(gridMatrix)
-        grid = GGL.gameGridLight(matrix=gridMatrix)
+        grid = GGL.GameGridLight(matrix=gridMatrix)
 
         direction, _ = evalMoveTo(grid, DEEP)
         print("Moving to " + direction)
         return direction
 
 
-def evalMoveTo(par_grid: GGL.gameGridLight, deep: int):
+def evalMoveTo(par_grid: GGL.GameGridLight, deep: int):
     if deep == 0:
         return '', par_grid.getScore()
 #    print("evalMoveTo Deep " + str(deep))
@@ -58,7 +58,7 @@ def evalMoveTo(par_grid: GGL.gameGridLight, deep: int):
 #    print("Best direction : " + str(best_direction))
     return best_direction, best_score
 
-def evalAddTile(par_grid: GGL.gameGridLight, deep: int):
+def evalAddTile(par_grid: GGL.GameGridLight, deep: int):
     if deep == 0:
         return par_grid.getScore()
 #    print("evalAddTile Deep " + str(deep))

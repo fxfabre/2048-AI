@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-from GameGrids.GameGridLight import gameGridLight as GameGrid
+from GameGrids.GameGridLight import GameGridLight as GameGrid
 from GameGrids.GameGridLight import array2DEquals
 
 

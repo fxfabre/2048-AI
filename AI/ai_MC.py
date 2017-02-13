@@ -24,7 +24,7 @@ class ai_MCsimulation:
         gridMatrix = gameBoard.grid.to_int_matrix()
 
         for i in range(nbSimulation):
-            grid = GGL.gameGridLight(matrix=gridMatrix)
+            grid = GGL.GameGridLight(matrix=gridMatrix)
 
             deep = 0
             score = 0

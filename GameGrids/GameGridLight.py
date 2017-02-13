@@ -3,12 +3,12 @@
 
 import random
 from GameGrids.baseGrid2048 import BaseGrid2048, array2DEquals
+import constants
 
-
-class gameGridLight(BaseGrid2048):
+class GameGridLight(BaseGrid2048):
 
     def clone(self):
-        return gameGridLight(matrix=self.matrix)
+        return GameGridLight(matrix=self.matrix)
 
     ###############
     # Moves
@@ -16,8 +16,6 @@ class gameGridLight(BaseGrid2048):
     def moveTo(self, direction=""):
         direction = direction.lower()
 
-        score = 0
-        have_moved = False
         if direction == 'left':
             return self.moveLeft()
         elif direction == 'right':
@@ -53,7 +51,7 @@ class gameGridLight(BaseGrid2048):
         for _row in range(self.rows):
 
             # Skip columns with > 0 tile
-            _first_empty_column = self.columns # après la dernière colonne
+            _first_empty_column = self.columns  # après la dernière colonne
             for _column in range(self.columns - 1):
                 if _at[_row, _column] == 0:
                     _first_empty_column = _column
@@ -85,7 +83,7 @@ class gameGridLight(BaseGrid2048):
                     if _at[_row, _column] == _at[_row, _column_next]:
                         self.matrix[_row, _column] *= 2
                         self.matrix[_row, _column_next] = 0
-                        score +=_at[_row, _column]
+                        score += _at[_row, _column]
                         have_moved = True
                     break
 
@@ -93,14 +91,14 @@ class gameGridLight(BaseGrid2048):
         for _row in range(self.rows):
 
             # Skip columns with > 0 tile
-            _first_empty_column = -1 # avant la premiere colonne
+            _first_empty_column = -1  # avant la premiere colonne
             for _column in range(self.columns - 1, -1, -1):
                 if _at[_row, _column] == 0:
                     _first_empty_column = _column
                     break
 
             # Move tiles
-            for _column in range(_first_empty_column-1, -1, -1):
+            for _column in range(_first_empty_column - 1, -1, -1):
                 if _at[_row, _column] > 0:
                     self.matrix[_row, _first_empty_column] = _at[_row, _column]
                     _at[_row, _column] = 0
@@ -110,7 +108,6 @@ class gameGridLight(BaseGrid2048):
         return score, have_moved
 
     def moveUp(self):
-        _at = self.matrix
         score = 0
         have_moved = False
 
@@ -121,12 +118,12 @@ class gameGridLight(BaseGrid2048):
                 # find same tile
                 for _row_next in range(_row + 1, self.rows):
 
-                    if _at[_row_next, _column] == 0:
+                    if self.matrix[_row_next, _column] == 0:
                         continue
-                    if _at[_row, _column] == _at[_row_next, _column]:
+                    if self.matrix[_row, _column] == self.matrix[_row_next, _column]:
                         self.matrix[_row, _column] *= 2
                         self.matrix[_row_next, _column] = 0
-                        score +=_at[_row, _column]
+                        score += self.matrix[_row, _column]
                         have_moved = True
                     break
 
@@ -134,24 +131,23 @@ class gameGridLight(BaseGrid2048):
         for _column in range(self.columns):
 
             # Skip columns with > 0 tile
-            _first_empty_row = self.rows # après la dernière colonne
+            _first_empty_row = self.rows
             for _row in range(self.rows - 1):
-                if _at[_row, _column] == 0:
+                if self.matrix[_row, _column] == 0:
                     _first_empty_row = _row
                     break
 
             # Move tiles
-            for _row in range(_first_empty_row+1, self.rows):
-                if _at[_row, _column] > 0:
-                    self.matrix[_first_empty_row, _column] = _at[_row, _column]
-                    _at[_row, _column] = 0
+            for _row in range(_first_empty_row + 1, self.rows):
+                if self.matrix[_row, _column] > 0:
+                    self.matrix[_first_empty_row, _column] = self.matrix[_row, _column]
+                    self.matrix[_row, _column] = 0
                     _first_empty_row += 1
                     have_moved = True
 
         return score, have_moved
 
     def moveDown(self):
-        _at = self.matrix
         score = 0
         have_moved = False
 
@@ -162,12 +158,12 @@ class gameGridLight(BaseGrid2048):
                 # find same tile
                 for _row_next in range(_row - 1, -1, -1):
 
-                    if _at[_row_next, _column] == 0:
+                    if self.matrix[_row_next, _column] == 0:
                         continue
-                    if _at[_row, _column] == _at[_row_next, _column]:
+                    if self.matrix[_row, _column] == self.matrix[_row_next, _column]:
                         self.matrix[_row, _column] *= 2
                         self.matrix[_row_next, _column] = 0
-                        score +=_at[_row, _column]
+                        score += self.matrix[_row, _column]
                         have_moved = True
                     break
 
@@ -175,17 +171,17 @@ class gameGridLight(BaseGrid2048):
         for _column in range(self.columns):
 
             # Skip columns with > 0 tile
-            _first_empty_row = -1 # avant la premiere ligne
+            _first_empty_row = -1  # avant la premiere ligne
             for _row in range(self.rows - 1, -1, -1):
-                if _at[_row, _column] == 0:
+                if self.matrix[_row, _column] == 0:
                     _first_empty_row = _row
                     break
 
             # Move tiles
-            for _row in range(_first_empty_row-1, -1, -1):
-                if _at[_row, _column] > 0:
-                    self.matrix[_first_empty_row, _column] = _at[_row, _column]
-                    _at[_row, _column] = 0
+            for _row in range(_first_empty_row - 1, -1, -1):
+                if self.matrix[_row, _column] > 0:
+                    self.matrix[_first_empty_row, _column] = self.matrix[_row, _column]
+                    self.matrix[_row, _column] = 0
                     _first_empty_row -= 1
                     have_moved = True
 
@@ -204,11 +200,10 @@ class gameGridLight(BaseGrid2048):
         _value = random.choice([2, 2, 2, 4, 2, 2, 2, 2, 2, 2])
         _row, _column = self.get_available_box()
         self.set_tile(_row, _column, _value)
-        #print("Adding tile {0} at ({1}, {2})".format(_value, _row, _column))
 
     @property
     def max_value(self):
-        return 6    # not the actual max value. But enough for now.
+        return constants.GRID_MAX_VAL
         return self.rows + self.columns + 1
 
     def __str__(self):

@@ -34,7 +34,7 @@ def runSimulation(params):
     scores = []
     deeps  = []
 
-    grid = GGL.gameGridLight(matrix=gridMatrix)
+    grid = GGL.GameGridLight(matrix=gridMatrix)
 
     for i in range(NB_SIMULATIONS_MC):
         grid_MC = grid.clone()

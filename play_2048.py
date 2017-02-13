@@ -74,8 +74,8 @@ class PlayGame:
                 diff_update += self._ai.RecordState(old_state, current_state, move_dir)
                 is_game_over = current_grid.is_game_over()
 
-        self._logger.info("{0:>3} Game over in {1:>3} iterations, diff = {2:>9}".format(
-            play_number, nb_iter, int(diff_update)))
+        self._logger.info("{0:>3} Game over in {1:>3} iterations, diff = {2}".format(
+            play_number, nb_iter, round(diff_update, 4)))
 
     def init_logger(self):
         # log_filename = os.path.join('/tmp', "2048_" + str(int(time.time())) + ".log")

@@ -20,7 +20,7 @@ class ai_bestScoreNextMove:
         best_score = -1
         best_move  = ''
         for direction in ai_bestScoreNextMove.Available_moves:
-            gameGrid = GGL.gameGridLight(matrix=gridMatrix)
+            gameGrid = GGL.GameGridLight(matrix=gridMatrix)
             current_score, have_moved = gameGrid.moveTo(direction)
 
             if (have_moved) and (current_score > best_score):

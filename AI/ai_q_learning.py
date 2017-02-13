@@ -12,7 +12,7 @@ from GameGrids.LogGameGrid import GameGrid2048
 ALPHA = 0.5
 GAMMA = 1.0
 EPSILON = 0.2       # 1 means move at random
-REWARD_MOVE = 1.0
+REWARD_MOVE = 0.25
 REWARD_END_GAME = 10.0
 
 
@@ -40,7 +40,7 @@ class Qlearning(BaseAi):
         if not self.LoadStates(file_pattern):
             self.q_values.fillna(0, inplace=True)
             self.init_end_states()
-        self.symetric_states = self.get_symetric_states()
+        # self.symetric_states = self.get_symetric_states()
         self._logger.info('Init Q learning success : %s', self.q_values.shape)
 
     def init_end_states(self):
@@ -120,69 +120,9 @@ class Qlearning(BaseAi):
             return True
         return False
 
-    def GetState(self, grid):
-        total = 0
-        for i in range(grid.columns):
-            for j in range(grid.rows):
-                total = total * grid.max_value + grid.matrix[i, j]
-        return total
-
-    def get_symetric_states_for_grid(self, grid : GameGrid2048):
-        current_state = grid.GetState()
-        equivalent_state = {
-            'nb_transfo'    : 0,
-            'transfos'      : [],
-            'state'         : current_state
-        }
-
-        for tx in ['symetry_axis_x', None]:
-            for ty in ['symetry_axis_y', None]:
-                for rotate in ['rotate_90', 'rotate_180', 'rotate_270', None]:
-                    transfos = []
-                    loc_grid = grid.clone()
-                    if not(tx is None):
-                        loc_grid.run_transfo(tx)
-                        transfos.append(tx)
-                    if not(ty is None):
-                        loc_grid.run_transfo(ty)
-                        transfos.append(ty)
-                    if not(rotate is None):
-                        loc_grid.run_transfo(rotate)
-                        transfos.append(rotate)
-
-                    state = loc_grid.GetState()
-                    if state < equivalent_state['state']:
-                        equivalent_state = {
-                            'nb_transfo'    : len(transfos),
-                            'transfos'      : transfos,
-                            'state'         : state
-                        }
-                    elif (state == equivalent_state['state']) and (len(transfos) < equivalent_state['nb_transfo']):
-                        equivalent_state = {
-                            'nb_transfo'    : len(transfos),
-                            'transfos'      : transfos,
-                            'state'         : state
-                        }
-
-        return equivalent_state
-
-    def get_symetric_states(self):
-        states = {}
-        nb_states_done = 0
-        nb_iso_transfo = 0
-        for grid in GameGrid2048.get_all_states():
-            state = grid.GetState()
-            states[state] = self.get_symetric_states_for_grid(grid)
-
-            if state == states[state]['state']:
-                nb_iso_transfo += 1
-
-            nb_states_done += 1
-            if nb_states_done % 10000 == 0:
-                print("State", nb_states_done)
-
-        for k, v in states.items():
-            print(k, v)
-
-        print(nb_iso_transfo)
-        return states
+    # def GetState(self, grid):
+    #     total = 0
+    #     for i in range(grid.columns):
+    #         for j in range(grid.rows):
+    #             total = total * grid.max_value + grid.matrix[i, j]
+    #     return total

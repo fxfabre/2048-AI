@@ -7,7 +7,7 @@ import random
 import numpy as np
 
 from AI.ai_base import BaseAi
-from GameGrids.GameGridLight import gameGridLight
+from GameGrids.GameGridLight import GameGridLight
 
 ##
 # Reinforcement learning algo : Temporal differences learning
@@ -58,7 +58,7 @@ class ai_TDlearning(BaseAi):
         nb_iter = 2000
         while nb_iter > 0:
             nb_iter -= 1
-            grid = gameGridLight(nbRows=4, nbColumns=4)
+            grid = GameGridLight(nbRows=4, nbColumns=4)
             grid.add_random_tile()
             grid.add_random_tile()
 
