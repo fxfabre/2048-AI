@@ -45,7 +45,7 @@ class PlayGame:
         nb_iter = 0
         is_game_over = False
         diff_update = 0
-        current_state = self._ai.GetState(current_grid)
+        current_state = current_grid.GetState()
 
         while not is_game_over:  # current_grid.is_game_over():
             nb_iter += 1
@@ -59,26 +59,26 @@ class PlayGame:
 
             move_dir = self._ai.GetMove(current_grid, [])
             current_grid.moveTo(move_dir)
-            current_state = self._ai.GetState(current_grid)
+            current_state = current_grid.GetState()
             self._logger.debug("Moving %s, from %d to %d", move_dir, old_state, current_state)
 
             current_grid.print(logging.DEBUG)
             current_grid.add_random_tile()
             current_grid.print(logging.DEBUG)
-            current_state = self._ai.GetState(current_grid)
+            current_state = current_grid.GetState()
 
             if current_grid.matrix.max() >= constants.GRID_MAX_VAL:
                 self._logger.info("Stop iterations, values too big for the model")
                 is_game_over = True
             else:
-                diff_update += self._ai.RecordState(old_state, current_state, move_dir, is_game_over)
+                diff_update += self._ai.RecordState(old_state, current_state, move_dir)
                 is_game_over = current_grid.is_game_over()
 
         self._logger.info("{0:>3} Game over in {1:>3} iterations, diff = {2:>9}".format(
             play_number, nb_iter, int(diff_update)))
 
     def init_logger(self):
-        log_filename = os.path.join('/tmp', "2048_" + str(int(time.time())) + ".log")
+        # log_filename = os.path.join('/tmp', "2048_" + str(int(time.time())) + ".log")
         log_format = '%(asctime)-15s %(message)s'
         logging.basicConfig(format=log_format, level=logging.INFO)
         return logging.getLogger(__name__)

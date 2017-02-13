@@ -42,7 +42,7 @@ class ai_TDlearning(BaseAi):
         if grid.isGameOver:
             return ''
 
-        current_state = self.GetState(grid)
+        current_state = grid.GetState()
         move_to_do = self.ChooseMove(grid, current_state, 0)
 
         return move_to_do.direction
@@ -65,7 +65,7 @@ class ai_TDlearning(BaseAi):
             self.state_history = []
             have_moved = True
             while have_moved:
-                current_state = self.GetState(grid)
+                grid = self.GetState()
 
                 move_to_do = self.ChooseMove(grid, current_state, epsilon)
 
@@ -111,10 +111,10 @@ class ai_TDlearning(BaseAi):
         states = {}
         for row, col in grid.get_empty_tiles():
             grid.matrix[row, col] = 2
-            states[self.GetState(grid)] = 9     # proba to have this state : 9 / 10
+            states[grid.GetState()] = 9     # proba to have this state : 9 / 10
 
             grid.matrix[row, col] = 4
-            states[self.GetState(grid)] = 1     # proba to have this state : 1 / 10
+            states[grid.GetState()] = 1     # proba to have this state : 1 / 10
 
             grid.matrix[row, col] = 0
 
@@ -158,7 +158,7 @@ class ai_TDlearning(BaseAi):
     def Update_Q_values(self, grid, move_done, current_state, score):
         s = current_state
         a = move_done.idx_direction
-        s_prime = self.GetState(grid)
+        s_prime = grid.GetState()
         q_value_a = self.q_values[s, a]
         q_value_a_prime = self.q_values[s_prime, :].max()
 

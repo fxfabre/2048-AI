@@ -191,111 +191,10 @@ class GameGrid2048(BaseGrid2048):
 
         return score, have_moved
 
-    ###############
-    # Can move
-    ###############
-    def canMergeLeftRight(self):
-        for row in range(self.rows):
-            for column in range(self.columns -1):
-                if self.matrix[row, column] == 0:
-                    pass
-                elif self.matrix[row, column] == self.matrix[row, column +1]:
-                    return True
-        return False
-
-    def canMergeUpDown(self):
-        for column in range(self.columns):
-            for row in range(self.rows -1):
-                if self.matrix[row, column] == 0:
-                    pass
-                elif self.matrix[row, column] == self.matrix[row +1, column]:
-                    return True
-        return False
-
-    def canMove(self, direction):
-        if direction == 'left':
-            return self.canMoveLeft()
-        if direction == 'right':
-            return self.canMoveRight()
-        if direction == 'up':
-            return self.canMoveUp()
-        if direction == 'down':
-            return self.canMoveDown()
-
-        raise Exception("Unknown direction " + str(direction))
-
-    def canMoveLeft(self):
-        # Find a tile with an empty box at its left
-        for row in range(self.rows):
-            for column in range(self.columns -1):
-                if (self.matrix[row, column] == 0) and (self.matrix[row, column +1] > 0):
-                    return True
-        return self.canMergeLeftRight()
-
-    def canMoveUp(self):
-        # Find a tile with an empty box above
-        for column in range(self.columns):
-            for row in range(1, self.rows):
-                if (self.matrix[row, column] > 0) and (self.matrix[row -1, column] == 0):
-#                    print("({0}, {1}) = 0 and ({2}, {3}) = {4}".format(row, column, row-1, column, self.matrix[row -1, column]))
-                    return True
-#        print("No tile to move")
-        return self.canMergeUpDown()
-
-    def canMoveDown(self):
-        # Find a tile with an empty box below
-        for column in range(self.columns):
-            for row in range(self.rows -1):
-                if (self.matrix[row, column] > 0) and (self.matrix[row +1, column] == 0):
-                    return True
-        return self.canMergeUpDown()
-
-    def canMoveRight(self):
-        # Find a tile with an empty box at its right
-        for row in range(self.rows):
-            for column in range(1, self.columns):
-                if (self.matrix[row, column] == 0) and (self.matrix[row, column -1] > 0):
-                    return True
-        return self.canMergeLeftRight()
-
     ################
-    def is_full(self):
-        for i in range(self.rows):
-            for j in range(self.columns):
-                if self.matrix[i,j] == 0:
-                    return False
-        return True
-
-    def is_game_over(self):
-        if not self.is_full():
-            return False
-
-        # Find 2 consecutive and identical tile
-        for _row in range(self.rows - 1):
-            for _col in range(self.columns - 1):
-                if self.matrix[_row, _col] == self.matrix[_row, _col + 1]:
-                    return False
-                if self.matrix[_row, _col] == self.matrix[_row + 1, _col]:
-                    return False
-            if self.matrix[_row, self.columns-1] == self.matrix[_row + 1, self.columns-1]:
-                return False
-        for _col in range(self.columns - 1):
-            if self.matrix[self.rows-1, _col] == self.matrix[self.rows -1, _col +1]:
-                return False
-        return True
-
-    def can_add_tile(self, x, y):
-        return self.matrix[x,y] == 0
-
-    def add_tile(self, x, y, tile_to_add):
-        if self.can_add_tile(x, y):
-            self.matrix[x, y] = tile_to_add
-        else:
-            print("Unable to add tile at ({0}, {1})".format(x, y))
-
     def add_random_tile(self):
         """
-            pops up a random tile at a given place;
+            pops up a random tile
         """
         # ensure we yet have room in grids
         if self.is_full():
@@ -304,31 +203,6 @@ class GameGrid2048(BaseGrid2048):
         _value = random.choice([1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
         _row, _column = self.get_available_box()
         self.set_tile(_row, _column, _value)
-
-    def set_tile(self, row, col, value):
-        if self.matrix[row, col] != 0:
-            raise Exception("Tile not empty at ({0}, {1}). can't add tile {2}".format(row, col, value))
-        self.matrix[row, col] = value
-
-    def get_available_box (self):
-        """
-            looks for an empty box location;
-        """
-
-        available_box = []
-        for _row in range(self.rows):
-            for _column in range(self.columns):
-                if self.matrix[_row, _column] == 0:
-                    available_box.append(_row * self.columns + _column)
-
-        if len(available_box) == 0:
-            raise Exception("no more room in grid")
-
-        random_pos = random.choice(available_box)
-        return random_pos // self.columns, random_pos % self.columns
-
-    def to_int_matrix(self):
-        return self.matrix
 
     @staticmethod
     def get_all_states(min_val=0):
