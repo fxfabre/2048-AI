@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import os
 import numpy as np
 import logging
 import constants
@@ -12,10 +13,14 @@ class BaseGrid2048:
     def __init__(self, nb_rows=0, nb_columns=0, matrix=None):
         self.logger = logging.getLogger(__name__)
         self.isGameOver = False
+        self.file_history = None
 
         if matrix is not None:
             self.matrix = np.array(matrix, dtype=int)
         else:
+            if constants.RECORD_MOVES:
+                self.file_history = open(os.path.join(constants.SAVE_DIR, constants.FILE_RECORD_MOVES), 'a+')
+
             self.matrix = np.zeros([nb_rows, nb_columns], dtype=int)
             self.add_random_tile()
             self.add_random_tile()
@@ -327,6 +332,11 @@ class BaseGrid2048:
         if self.matrix is None:
             return 0
         return self.matrix.shape[1]
+
+    def __del__(self):
+        if self.file_history:
+            self.file_history.close()
+            self.file_history = None
 
 
 def array2DEquals(matrix_a, matrix_b):

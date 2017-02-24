@@ -8,7 +8,9 @@ NB_COLS = 2
 GRID_MAX_VAL = 5
 
 if sys.platform == 'linux':
-    SAVE_DIR = '.'
+    SAVE_DIR = ''
 else:
     SAVE_DIR = '.'
 
+RECORD_MOVES = False
+FILE_RECORD_MOVES = 'moves_history.csv'

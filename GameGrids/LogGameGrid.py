@@ -18,16 +18,28 @@ class GameGrid2048(BaseGrid2048):
         if self.matrix.max() >= constants.GRID_MAX_VAL:
             return 0, False
 
+        line_history = ''
+        length = 0
+        if constants.RECORD_MOVES:
+            length = self.matrix.shape[0] * self.matrix.shape[1]
+            line_history = '|'.join(map(str, self.matrix.reshape(length)))
+
         direction = direction.lower()
+        score, has_moved = 0, False
         if direction == 'left':
-            return self.moveLeft()
+            score, has_moved = self.moveLeft()
         elif direction == 'right':
-            return self.moveRight()
+            score, has_moved = self.moveRight()
         elif direction == 'up':
-            return self.moveUp()
+            score, has_moved = self.moveUp()
         elif direction == 'down':
-            return self.moveDown()
-        return 0, False
+            score, has_moved = self.moveDown()
+
+        if constants.RECORD_MOVES:
+            line_history += '|' + '|'.join(map(str, self.matrix.reshape(length)))
+            self.file_history.write(line_history + '\n')
+
+        return score, has_moved
 
     def moveLeft(self):
         score = 0
@@ -66,8 +78,8 @@ class GameGrid2048(BaseGrid2048):
                     _first_empty_column += 1
                     have_moved = True
 
-        if have_moved:
-            self.to_min_state()
+        # if have_moved:
+        #     self.to_min_state()
         return score, have_moved
 
     def moveRight(self):
@@ -107,8 +119,8 @@ class GameGrid2048(BaseGrid2048):
                     _first_empty_column -= 1
                     have_moved = True
 
-        if have_moved:
-            self.to_min_state()
+        # if have_moved:
+        #     self.to_min_state()
         return score, have_moved
 
     def moveUp(self):
@@ -149,8 +161,8 @@ class GameGrid2048(BaseGrid2048):
                     _first_empty_row += 1
                     have_moved = True
 
-        if have_moved:
-            self.to_min_state()
+        # if have_moved:
+        #     self.to_min_state()
         return score, have_moved
 
     def moveDown(self):
@@ -191,8 +203,8 @@ class GameGrid2048(BaseGrid2048):
                     _first_empty_row -= 1
                     have_moved = True
 
-        if have_moved:
-            self.to_min_state()
+        # if have_moved:
+        #     self.to_min_state()
         return score, have_moved
 
     ################
@@ -204,7 +216,7 @@ class GameGrid2048(BaseGrid2048):
         if self.is_full():
             return
 
-        _value = random.choice([1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
+        _value = 1  # random.choice([1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
         _row, _column = self.get_available_box()
         self.set_tile(_row, _column, _value)
 
@@ -249,4 +261,3 @@ class GameGrid2048(BaseGrid2048):
 
     def __eq__(self, other):
         return array2DEquals(self.matrix, other.matrix)
-
