@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import os
 import random
 import logging
 import constants
@@ -21,6 +22,7 @@ class Qlearning:
         self._logger = logging.getLogger(self.__class__.__name__)
         self._logger.info("Init Q learning")
         self._moves_list = ['left', 'right', 'up', 'down']
+        self.file_history = None
 
         # Force epsilon-greedy if record moves
         self.epsilon = (constants.RECORD_MOVES and 0) or EPSILON
@@ -31,6 +33,9 @@ class Qlearning:
 
         self.qval_container = QvaluesContainer(self._moves_list)
         self.init_end_states()
+
+        # if constants.RECORD_MOVES:
+        #     self.file_history = open(os.path.join(constants.SAVE_DIR, constants.FILE_RECORD_MOVES), 'a+')
 
     def init_end_states(self):
         self._logger.debug("Start init end states")
@@ -66,6 +71,12 @@ class Qlearning:
         max_val = current_q_val.max()
         optimal_moves = current_q_val[current_q_val == max_val].index.tolist()
 
+        # if not(self.file_history is None):
+        #     nb_cell = current_grid.matrix.shape[0] * current_grid.matrix.shape[1]
+        #     line = '|'.join(map(str, current_grid.matrix.reshape(nb_cell)))
+        #     for move in optimal_moves:
+        #         self.file_history.write(line + '|' + move + '\n')
+
         if len(optimal_moves) == 0:     # shouldn't happen
             raise Exception("No optimal move in Get move function")
         elif len(optimal_moves) == 1:
@@ -93,3 +104,8 @@ class Qlearning:
 
     def SaveStates(self):
         self.qval_container.save_states()
+
+    # def __del__(self):
+    #     if self.file_history:
+    #         self.file_history.close()
+    #         self.file_history = None

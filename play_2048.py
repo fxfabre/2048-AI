@@ -73,7 +73,7 @@ class PlayGame:
                 is_game_over = current_grid.is_game_over()
 
         if play_number % 10 == 0:
-            self._logger.info("{0:>3} Game over in {1:>3} iterations, diff = {2}".format(
+            self._logger.info("{0:>3} End in {1:>3} iterations, diff = {2}".format(
                 play_number, nb_iter, round(diff_update, 4)))
 
     def init_logger(self):
