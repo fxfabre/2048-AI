@@ -256,7 +256,7 @@ class GameGrid2048(BaseGrid2048):
         real_values = np.zeros([self.rows, self.columns], dtype=int)
         for i in range(self.rows):
             for j in range(self.columns):
-                real_values[i, j] = 1 << self.matrix[i, j]
+                real_values[i, j] = 1 << int(self.matrix[i, j])
         return str(real_values).replace('[1 ', '[. ').replace(' 1 ', ' . ').replace(' 1]', ' .]') + '  ' + str(state_val)
 
     def __eq__(self, other):

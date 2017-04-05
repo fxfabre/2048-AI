@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import time
 import math
 import logging
 import traceback
@@ -20,16 +19,20 @@ class PlayGame:
         self._ai = Qlearning()
 
     def Simulate(self):
+        if os.path.exists('scores.txt'):
+            os.remove('scores.txt')
         try:
             play_number = 0
-            while play_number < 2000:
+            while True:
                 play_number += 1
                 nb_moves, diff_update = self.playGame()
 
-                if play_number % 10 == 0:
+                if play_number % 100 == 0:
                     self._logger.info("{0:>3} End in {1:>3} iterations, diff = {2}".format(
                         play_number, nb_moves, round(diff_update, 4)))
 
+                if play_number % 50000 == 0:
+                    self.eval_strat(play_number)
                 if play_number % 500000 == 0:
                     self._ai.SaveStates()
                 if self._logger.isEnabledFor(logging.DEBUG):
@@ -42,18 +45,19 @@ class PlayGame:
             print("error :", e)
         self._ai.SaveStates()
 
-    def eval_strat(self):
-        nb_moves_done = np.zeros(100)
-        play_number = 0
-        nb_total_play = 100
-        while play_number < nb_total_play:
-            play_number += 1
+    def eval_strat(self, nb_play_training_done=0):
+        self._logger.info("Evaluate strat after %s moves", nb_play_training_done)
+        epsilon = self._ai.epsilon
+        self._ai.epsilon = 0  # epsilon-greedy
+
+        # Play
+        nb_total_play = 1000
+        nb_moves_done = np.zeros(100)   # 100 moves max in game before end
+        for play_number in range(nb_total_play):
             nb_moves, _ = self.playGame()
             nb_moves_done[nb_moves] += 1
 
-            if play_number % 10 == 0:
-                print("Playing game ", play_number)
-
+        # Compute mean / var of the number of moves done in each play
         moyenne = 0
         moyenne_square = 0
         for i in range(nb_moves_done.shape[0]):
@@ -64,10 +68,17 @@ class PlayGame:
                 print(i, nb_moves)
         moyenne /= nb_total_play
         moyenne_square /= nb_total_play
+        std = math.sqrt(moyenne_square - moyenne * moyenne)
         print("mean : ", moyenne)
-        print("std  : ", math.sqrt(moyenne_square - moyenne * moyenne))
+        print("std  : ", std)
 
-    def playGame(self, play_number=0):
+        # Save to file
+        with open('scores.txt', 'a+') as f:
+            f.write('|'.join(map(str, [nb_play_training_done, moyenne, std])) + '\n')
+
+        self._ai.epsilon = epsilon
+
+    def playGame(self):
         current_grid = GameGrid2048(nb_rows=constants.NB_ROWS, nb_columns=constants.NB_COLS)
         current_grid.to_min_state()
         current_state = current_grid.GetState()
@@ -113,5 +124,5 @@ class PlayGame:
 
 if __name__ == '__main__':
     game = PlayGame()
-    # game.Simulate()
-    game.eval_strat()
+    game.Simulate()
+    # game.eval_strat()
