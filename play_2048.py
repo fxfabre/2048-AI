@@ -11,6 +11,8 @@ from AI.ai_q_learning import Qlearning
 from GameGrids.LogGameGrid import GameGrid2048
 import constants
 
+COEFF = 100   # 100
+
 
 class PlayGame:
 
@@ -21,8 +23,8 @@ class PlayGame:
     def Simulate(self):
         if os.path.exists('scores.txt'):
             os.remove('scores.txt')
+        play_number = 0
         try:
-            play_number = 0
             while True:
                 play_number += 1
                 nb_moves, diff_update = self.playGame()
@@ -30,11 +32,10 @@ class PlayGame:
                 if play_number % 100 == 0:
                     self._logger.info("{0:>3} End in {1:>3} iterations, diff = {2}".format(
                         play_number, nb_moves, round(diff_update, 4)))
-
-                if play_number % 50000 == 0:
+                if play_number % (500 * COEFF) == 0:
                     self.eval_strat(play_number)
-                if play_number % 500000 == 0:
-                    self._ai.SaveStates()
+                if play_number % (5000 * COEFF) == 0:
+                    self._ai.SaveStates(play_number // 1000)
                 if self._logger.isEnabledFor(logging.DEBUG):
                     raise Exception("end game")
         except KeyboardInterrupt:
@@ -43,7 +44,7 @@ class PlayGame:
             print(e)
             traceback.print_tb(e.__traceback__)
             print("error :", e)
-        self._ai.SaveStates()
+        self._ai.SaveStates(play_number // 1000)
 
     def eval_strat(self, nb_play_training_done=0):
         self._logger.info("Evaluate strat after %s moves", nb_play_training_done)
@@ -97,7 +98,7 @@ class PlayGame:
 
             old_state = current_state
 
-            move_dir = self._ai.GetMove(current_grid, [])
+            move_dir = self._ai.GetMove(current_grid)
             current_grid.moveTo(move_dir)
             current_state = current_grid.GetState()
             self._logger.debug("Moving %s, from %d to %d", move_dir, old_state, current_state)

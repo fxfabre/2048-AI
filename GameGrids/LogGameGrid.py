@@ -37,7 +37,7 @@ class GameGrid2048(BaseGrid2048):
 
         if constants.RECORD_MOVES:
             line_history += '|' + '|'.join(map(str, self.matrix.reshape(length)))
-            self.file_history.write(line_history + '\n')
+            self.file_history.write(line_history + '|{0}\n'.format(direction))
 
         return score, has_moved
 

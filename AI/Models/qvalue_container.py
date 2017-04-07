@@ -32,8 +32,9 @@ class QvaluesContainer:
 
         self.logger.info('Init Q learning success : %s', self.q_values.shape)
 
-    def save_states(self):
-        self.logger.info("Saving file to %s", self.file_pattern)
+    def save_states(self, nb_iter):
+        file_pattern = self.file_pattern + '_' + str(nb_iter)
+        self.logger.info("Saving file to %s", file_pattern)
         self.q_values['state'] = np.zeros(self.nb_states)
         for min_state, index_id in self.state_to_min_state.items():
             self.q_values.loc[index_id, 'state'] = int(min_state)

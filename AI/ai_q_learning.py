@@ -12,7 +12,7 @@ ALPHA = 0.5
 GAMMA = 1.0
 EPSILON = 0.2       # 1 means move at random
 REWARD_MOVE = 0.25
-REWARD_END_GAME = 10.0
+REWARD_END_GAME = -10.0
 
 
 class Qlearning:
@@ -51,7 +51,7 @@ class Qlearning:
         #     if move not in available_moves:
         #         self.q_values.iloc[current_state, index] = REWARD_END_GAME
 
-    def GetMove(self, current_grid : GameGrid2048, history):
+    def GetMove(self, current_grid : GameGrid2048):
         available_moves = [move for move in self._moves_list if current_grid.canMove(move)]
 
         self._logger.debug('Available moves : %s', available_moves)
@@ -101,8 +101,8 @@ class Qlearning:
         self._logger.debug("\n%s", self.qval_container.get_qvals(s_prime))
         return abs(value_to_add)
 
-    def SaveStates(self):
-        self.qval_container.save_states()
+    def SaveStates(self, nb_iter):
+        self.qval_container.save_states(nb_iter)
 
     # def __del__(self):
     #     if self.file_history:
