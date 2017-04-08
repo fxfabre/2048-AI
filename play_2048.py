@@ -109,7 +109,7 @@ class PlayGame:
             current_state = current_grid.to_min_state().GetState()
 
             if current_grid.matrix.max() >= constants.GRID_MAX_VAL:
-                self._logger.info("Stop iterations, values too big for the model")
+                # self._logger.info("Stop iterations, values too big for the model")
                 is_game_over = True
             else:
                 diff_update += self._ai.RecordState(old_state, current_state, move_dir)
