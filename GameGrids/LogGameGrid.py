@@ -233,7 +233,7 @@ class GameGrid2048(BaseGrid2048):
         i = 0
         for grid in GameGrid2048.get_all_states(1):
             i += 1
-            if i % 100 == 0:
+            if i % 10000 == 0:
                 print("Get final state number", i)
 
             if grid.canMergeUpDown():
