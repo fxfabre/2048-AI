@@ -74,7 +74,6 @@ class SimulationNode:
         downScore = (self.down and sum(self.down.scores)) or 0
         print("  Down  : {0}".format(leftScore))
 
-
     def getBestMove(self):
         return self.getMaxMove()
 

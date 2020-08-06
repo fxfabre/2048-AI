@@ -25,13 +25,13 @@ class consoleAutoPlay:
 
         i = 0
         nextMove = 'up'
-        nb_itera_without_moving = 0
-        while nb_itera_without_moving == 0:
+        nb_iter_without_moving = 0
+        while nb_iter_without_moving == 0:
             i += 1
 
-            # Add history (grid and score) data
-            self._scoreHistory.append( self.totalScore )
-            self._gridHistory.append( self.grid.matrix )
+            # # Add history (grid and score) data
+            # self._scoreHistory.append( self.totalScore )
+            # self._gridHistory.append( self.grid.matrix )
             # self._actionHistory ?
 
             # Get next move : 'left', 'right', 'up' or 'down'
@@ -40,7 +40,7 @@ class consoleAutoPlay:
             if len(nextMove) == 0:
                 print("null direction")
                 print(self.grid)
-                nb_itera_without_moving += 1
+                nb_iter_without_moving += 1
                 continue
 
             score, has_moved = self.grid.moveTo(nextMove)
@@ -51,7 +51,7 @@ class consoleAutoPlay:
 
             if not has_moved:
                 print("did not moved")
-                nb_itera_without_moving += 1
+                nb_iter_without_moving += 1
             print(self.grid)
 
         print("Game over in {0} iterations, score = {1}".format(i+1, self.totalScore))
