@@ -2,29 +2,29 @@
 # -*- coding: utf-8 -*-
 
 import random
-import logging
 import constants
 
+from Tools.have_logger import IHaveLogger
 from GameGrids.LogGameGrid import GameGrid2048
 from AI.Models.qvalue_container import QvaluesContainer
 
 ALPHA = 0.5
 GAMMA = 1.0
-EPSILON = 0.2       # 1 means move at random
+EPSILON = 0.0       # 1 means move at random
 REWARD_MOVE = 0.25
 REWARD_END_GAME = -10.0
 
 
-class Qlearning:
+class Qlearning(IHaveLogger):
 
     def __init__(self):
-        self._logger = logging.getLogger(self.__class__.__name__)
-        self._logger.info("Init Q learning")
+        super(Qlearning, self).__init__()
+        self.logger.info("Init Q learning")
         self._moves_list = ['left', 'right', 'up', 'down']
         self.file_history = None
 
         # Force epsilon-greedy if record moves
-        self.epsilon = (constants.RECORD_MOVES and 0) or EPSILON
+        self.epsilon = EPSILON
         self.alpha = ALPHA
         self.gamma = GAMMA
         self.reward_move = REWARD_MOVE
@@ -37,12 +37,12 @@ class Qlearning:
         #     self.file_history = open(os.path.join(constants.SAVE_DIR, constants.FILE_RECORD_MOVES), 'a+')
 
     def init_end_states(self):
-        self._logger.debug("Start init end states")
+        self.logger.debug("Start init end states")
         for grid in GameGrid2048.get_final_states():
             grid.to_min_state()
             state = self.qval_container.get_state(grid.matrix)
             self.qval_container.set_qvals(state, [REWARD_END_GAME] * 4)
-        self._logger.debug("Init end states done")
+        self.logger.debug("Init end states done")
 
         # TODO : bugfix Attention aux final state. Bien initialise ?
         # # Set bad Q value for impossible moves
@@ -54,14 +54,14 @@ class Qlearning:
     def GetMove(self, current_grid : GameGrid2048):
         available_moves = [move for move in self._moves_list if current_grid.canMove(move)]
 
-        self._logger.debug('Available moves : %s', available_moves)
+        self.logger.debug('Available moves : %s', available_moves)
         if len(available_moves) == 1:
             return available_moves[0]       # Don't waste time running AI
         if len(available_moves) == 0:
             return self._moves_list[0]      # whatever, it wont't move !
 
         if (self.epsilon > 0) and (random.uniform(0, 1) < self.epsilon):
-            # self._logger.debug("Randomly choose move")
+            # self.logger.debug("Randomly choose move")
             return random.choice(available_moves)
 
         current_state = self.qval_container.get_state(current_grid.matrix)
@@ -91,14 +91,14 @@ class Qlearning:
         q_value_s = self.qval_container.get_qval(s, a)
         v_value_s_prime = self.qval_container.get_qvals(s_prime).max()
 
-        self._logger.debug("Update q values from state %s, move %s to state %s", s, move_dir, s_prime)
-        self._logger.debug("\n%s", self.qval_container.get_qvals(s))
+        self.logger.debug("Update q values from state %s, move %s to state %s", s, move_dir, s_prime)
+        self.logger.debug("\n%s", self.qval_container.get_qvals(s))
 
         value_to_add = self.alpha * (self.reward_move + self.gamma * v_value_s_prime - q_value_s)
         self.qval_container.add_value(s, a, value_to_add)
 
-        self._logger.debug("Diff : %s => new value %s : %s", value_to_add, s, self.qval_container.get_qval(s, a))
-        self._logger.debug("\n%s", self.qval_container.get_qvals(s_prime))
+        self.logger.debug("Diff : %s => new value %s : %s", value_to_add, s, self.qval_container.get_qval(s, a))
+        self.logger.debug("\n%s", self.qval_container.get_qvals(s_prime))
         return abs(value_to_add)
 
     def SaveStates(self, nb_iter):
