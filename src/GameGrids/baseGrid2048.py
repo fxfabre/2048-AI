@@ -9,7 +9,6 @@ from src import constants
 
 class BaseGrid2048:
     def __init__(self, nb_rows=0, nb_columns=0, matrix=None):
-        self.logger = logging.getLogger(__name__)
         self.isGameOver = False
         self.file_history = None
 
@@ -299,7 +298,7 @@ class BaseGrid2048:
                 if self.matrix[row, col] == 0:
                     yield row, col
 
-    def toIntMatrix(self):
+    def to_int_matrix(self):
         return self.matrix
 
     @property

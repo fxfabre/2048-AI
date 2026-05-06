@@ -1,12 +1,12 @@
 import random
-import tkinter as TK
-import tkinter.messagebox as MB
+import tkinter as tk
+import tkinter.messagebox as mb
 from tkinter import ttk
 
 from src.GUI import gameBoard2048
 
 
-class Game2048(TK.Tk):
+class Game2048(tk.Tk):
     # component disposal padding
     PADDING = 10
 
@@ -15,9 +15,8 @@ class Game2048(TK.Tk):
 
     def __init__(self, **kw):
         # super class inits
-        TK.Tk.__init__(self)
+        super().__init__()
 
-        # widget inits
         self.init_widget(**kw)
 
         # prevent from accidental displaying
@@ -65,23 +64,23 @@ class Game2048(TK.Tk):
         self.gameBoard = gameBoard2048(self, **kw)
 
         # layout inits
-        self.gameBoard.grid.pack(side=TK.TOP, padx=_pad, pady=_pad)
-        self.gameBoard.score.pack(side=TK.LEFT)
-        self.gameBoard.highscore.pack(side=TK.LEFT)
+        self.gameBoard.grid.pack(side=tk.TOP, padx=_pad, pady=_pad)
+        self.gameBoard.score.pack(side=tk.LEFT)
+        self.gameBoard.highscore.pack(side=tk.LEFT)
 
         # play button
         ttk.Button(
             self,
             text="Play !",
             command=self.gameBoard.play_ia,
-        ).pack(side=TK.RIGHT, padx=_pad, pady=_pad)
+        ).pack(side=tk.RIGHT, padx=_pad, pady=_pad)
 
         # new game button
         ttk.Button(
             self,
             text="New Game",
             command=self.new_game,
-        ).pack(side=TK.RIGHT)
+        ).pack(side=tk.RIGHT)
 
     def new_game(self, *args, **kw):
         """
@@ -109,7 +108,7 @@ class Game2048(TK.Tk):
         return
 
         # ask before actually quitting
-        if MB.askokcancel("Question", "Quit game?", parent=self):
+        if mb.askokcancel("Question", "Quit game?", parent=self):
             self.quit()
 
     def run(self, **kw):

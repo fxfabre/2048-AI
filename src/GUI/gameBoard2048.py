@@ -93,7 +93,7 @@ class gameBoard2048:
 
             # Add history (grid and score) data
             self._scoreHistory.append(self.score.get_score())
-            self._gridHistory.append(self.grid.toIntMatrix())
+            self._gridHistory.append(self.grid.to_int_matrix())
 
             # Get next move : 'left', 'right', 'up' or 'down'
             nextMove = self._ai.move_next(self, self._gridHistory, self._scoreHistory)
@@ -118,7 +118,7 @@ class gameBoard2048:
         returnString.append(f"# Score : {self.score.get_score()}")
 
         # Grid :
-        for line in str(self.grid.toIntMatrix()).split("\n"):
+        for line in str(self.grid.to_int_matrix()).split("\n"):
             returnString.append(f"# {line}")
 
         returnString.append("")

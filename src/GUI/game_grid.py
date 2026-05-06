@@ -90,7 +90,7 @@ class GameGrid(TK.Canvas):
     ####################
     # My functions
     ####################
-    def toIntMatrix(self):
+    def to_int_matrix(self):
         N = len(self.matrix.matrix)
         matrix = np.zeros([N, N])
         for i in range(N):

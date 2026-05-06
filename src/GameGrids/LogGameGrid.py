@@ -229,10 +229,6 @@ class GameGrid2048(BaseGrid2048):
 
             yield grid
 
-    def print(self, log_level):
-        if self.logger.isEnabledFor(log_level):
-            print(self)
-
     def __str__(self):
         state_val = 0
         for i in range(self.columns):
@@ -244,7 +240,7 @@ class GameGrid2048(BaseGrid2048):
             for j in range(self.columns):
                 real_values[i, j] = 1 << int(self.matrix[i, j])
         return (
-            str(real_values).replace("[1 ", "[. ").replace(" 1 ", " . ").replace(" 1]", " .]") + "  " + str(state_val)
+            str(real_values).replace("[1 ", "[. ").replace(" 1 ", " . ").replace(" 1]", " .]") + "  "
         )
 
     def __eq__(self, other):

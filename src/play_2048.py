@@ -10,11 +10,11 @@ from src.AI.ai_q_learning import Qlearning
 from src.GameGrids.LogGameGrid import GameGrid2048
 
 COEFF = 100  # 100
+logger = logging.getLogger(__name__)
 
 
 class PlayGame:
     def __init__(self):
-        self._logger = self.init_logger()
         self._ai = Qlearning()
 
     def Simulate(self):
@@ -27,17 +27,13 @@ class PlayGame:
                 nb_moves, diff_update = self.playGame()
 
                 if play_number % 100 == 0:
-                    self._logger.info(
+                    logger.info(
                         f"{play_number:>3} End in {nb_moves:>3} iterations, diff = {round(diff_update, 4)}"
                     )
                 if play_number % (500 * COEFF) == 0:
                     self.eval_strat(play_number)
                 if play_number % (5000 * COEFF) == 0:
                     self._ai.SaveStates(play_number // 1000)
-                if self._logger.isEnabledFor(logging.DEBUG):
-                    raise Exception("end game")
-        except KeyboardInterrupt:
-            pass
         except Exception as e:
             print(e)
             traceback.print_tb(e.__traceback__)
@@ -92,7 +88,7 @@ class PlayGame:
             self._logger.debug("=" * 30)
             self._logger.debug("New loop")
             self._logger.debug("=" * 30)
-            current_grid.print(logging.DEBUG)
+            print(current_grid)
 
             old_state = current_state
 
@@ -101,9 +97,9 @@ class PlayGame:
             current_state = current_grid.GetState()
             self._logger.debug("Moving %s, from %d to %d", move_dir, old_state, current_state)
 
-            current_grid.print(logging.DEBUG)
+            .print(current_grid)
             current_grid.add_random_tile()
-            current_grid.print(logging.DEBUG)
+            print(current_grid)
             current_state = current_grid.to_min_state().GetState()
 
             if current_grid.matrix.max() >= constants.GRID_MAX_VAL:
@@ -114,11 +110,6 @@ class PlayGame:
                 is_game_over = current_grid.is_game_over()
 
         return nb_iter, diff_update
-
-    def init_logger(self):
-        log_format = "%(asctime)-15s %(message)s"
-        logging.basicConfig(format=log_format, level=logging.INFO)
-        return logging.getLogger(self.__class__.__name__)
 
 
 if __name__ == "__main__":

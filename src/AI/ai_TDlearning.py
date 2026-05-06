@@ -54,7 +54,7 @@ class ai_TDlearning(BaseAi):
         nb_iter = 2000
         while nb_iter > 0:
             nb_iter -= 1
-            grid = GameGridLight(nbRows=4, nbColumns=4)
+            grid = GameGridLight(nb_rows=4, nb_columns=4)
             grid.add_random_tile()
             grid.add_random_tile()
 

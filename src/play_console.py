@@ -1,21 +1,25 @@
+"""
+Play 2048 without any UI
+Display game grid on the console
+"""
+
 import numpy as np
-from pandas import DataFrame
+import pandas as pd
 
 from src.AI.ai_parallelMC import ai_parallelMC
 from src.GameGrids.LogGameGrid import GameGrid2048
 
 
-class consoleAutoPlay:
+class ConsoleAutoPlay:
     def __init__(self):
         self._scoreHistory = []
         self._gridHistory = []
         self.totalScore = 0
         self._ai = ai_parallelMC()
         self.grid = None
-        pass
 
     def playGame(self):
-        self.grid = GameGrid2048(nbRows=3, nbColumns=3)
+        self.grid = GameGrid2048(nb_rows=3, nb_columns=3)
         self.grid.add_random_tile()
         self.grid.add_random_tile()
 
@@ -54,11 +58,11 @@ class consoleAutoPlay:
 
     def saveScores(self):
         N = len(self._scoreHistory)
-        datasToStore = DataFrame(np.array([N, 17]))
+        datasToStore = pd.DataFrame(np.array([N, 17]))
 
         datasToStore[:][0] = self._scoreHistory
 
 
 if __name__ == "__main__":
-    game = consoleAutoPlay()
+    game = ConsoleAutoPlay()
     game.playGame()

@@ -1,0 +1,114 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=64", "setuptools_scm>=8.0"]
+
+[project]
+name = "2048_AI"
+description = "Python library"
+readme = "README.md"
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.13, <3.14"
+dependencies = [
+    "pandas<3",
+    "scikit-learn",
+]
+dynamic = ["optional-dependencies", "version"]
+
+[dependency-groups]
+test = [
+    "faker",
+    "freezegun",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+]
+typing = [
+    "mypy",
+    "types-PyYAML",
+    "pandas-stubs",
+]
+dev = [{ include-group = "test" }, { include-group = "typing" }]
+
+[tool.mypy]
+enable_error_code = "ignore-without-code"
+explicit_package_bases = true
+files = "src"
+mypy_path = "src"
+namespace_packages = true
+show_error_codes = true
+strict = true
+
+[tool.pytest.ini_options]
+addopts = [
+    "--verbose",
+    "--durations=0",
+    "--cov=src/",
+    "--cov-branch",
+    "--cov-report=html",
+    "--cov-report=term",
+    "--no-cov-on-fail",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning:pytest_nunit.*"
+]
+pythonpath = "src"
+
+[tool.coverage.run]
+omit = ["tests/*"]
+
+[tool.ruff]
+line-length = 120
+output-format = "concise"
+extend-exclude = ["*.ipynb"]
+
+[tool.ruff.format]
+docstring-code-format = true
+exclude = ["_version.py"]
+
+[tool.ruff.lint]
+ignore = ["ANN204", "D100", "D104", "D105", "N999", "PT001", "PT023", "SIM108"]
+select = ["A", "AIR", "ANN", "ASYNC", "B", "C4", "C90", "D", "E", "EM", "ERA", "F", "G", "I", "ICN", "N", "PERF", "PL", "PT", "PTH", "RET", "RUF", "S", "SIM", "T10", "T20", "TID", "UP", "W"]
+extend-ignore = ["D", "PLR0913", "SIM118"]
+
+[tool.ruff.lint.flake8-import-conventions]
+banned-from = [
+    "datetime",
+    "numpy",
+    "pandas",
+    "polars",
+    "pyarrow",
+    "pyarrow.compute",
+    "pyarrow.csv",
+    "pyarrow.parquet",
+    "pyspark.sql.functions",
+]
+
+[tool.ruff.lint.flake8-import-conventions.extend-aliases]
+"datetime" = "dt"
+"numpy" = "np"
+"pandas" = "pd"
+"polars" = "pl"
+"polars.selectors" = "cs"
+"pyarrow" = "pa"
+"pyarrow.compute" = "pc"
+"pyarrow.csv" = "pacsv"
+"pyarrow.parquet" = "pq"
+"pyspark.sql.functions" = "f"
+"pyspark.sql.types" = "t"
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN201", "D101", "D102", "D103", "S"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.setuptools.packages.find]
+where = ["src"]
