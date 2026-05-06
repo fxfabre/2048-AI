@@ -1,0 +1,44 @@
+# ============================================================
+# 2048-RL default hyperparameters
+# ============================================================
+
+# ---- Game variant ----
+game:
+  win_exponent: 6         # 2^6 = 64 is the winning tile
+
+# ---- N-tuple agent ----
+agent:
+  type: td_ntuple
+
+  # Tuple definitions: list of lists of flat cell indices (0–15).
+  # Default: 4 rows + 4 columns = 8 four-tuples.
+  tuples: null            # null → use DEFAULT_TUPLES from td_ntuple.py
+
+  # Learning rate.  Each active weight is updated by alpha * td_error.
+  # Effective per-state step = n_tuples × alpha, so scale down with more tuples.
+  alpha: 0.1
+
+  # Discount factor.  1.0 = undiscounted return (standard for finite games).
+  gamma: 1.0
+
+  # Initial weight value.
+  #   0.0 = pessimistic initialisation (safe, no exploration bias).
+  #   > 0  = optimistic initialisation (encourages visiting unseen patterns).
+  init_value: 0.0
+
+# ---- Training loop ----
+training:
+  n_episodes: 100_000
+
+  # Run evaluation every eval_interval training episodes.
+  eval_interval: 1_000
+
+  # Number of games per evaluation window (no weight updates).
+  eval_games: 100
+
+  # Save a weight checkpoint every checkpoint_interval episodes.
+  # Checkpoints are written to experiments/runs/<run_id>/checkpoint_<ep>.npz
+  checkpoint_interval: 10_000
+
+# ---- Reproducibility ----
+seed: 42

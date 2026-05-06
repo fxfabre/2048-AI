@@ -19,6 +19,10 @@ dependencies = [
 ]
 dynamic = ["optional-dependencies", "version"]
 
+[project.scripts]
+train-2048 = "scripts.train:main"
+play-2048  = "scripts.play:main"
+
 [dependency-groups]
 test = [
     "faker",
