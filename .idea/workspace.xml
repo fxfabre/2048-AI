@@ -2,17 +2,61 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0b644d39-eaf4-4b3b-9ae3-0b937391c6ba" name="Default" comment="Add eval strat during training">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tools/mysql_wrapper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/Models/qvalue_container.py" afterPath="$PROJECT_DIR$/AI/Models/qvalue_container.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/Models/simulationNode.py" afterPath="$PROJECT_DIR$/AI/Models/simulationNode.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI/ai_q_learning.py" afterPath="$PROJECT_DIR$/AI/ai_q_learning.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constants.py" afterPath="$PROJECT_DIR$/constants.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/play_console.py" afterPath="$PROJECT_DIR$/play_console.py" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUI/game2048_score.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUI/game_score.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/constants.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/perp_vector.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/AI/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/GameGrid/GameGridLight_Test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/GameGrid/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/simulationNode_Test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Models/qvalue_container.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/Models/qvalue_container.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Models/qvalue_container_mysql.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/Models/qvalue_container_mysql.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/Models/simulationNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/Models/simulationNode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/ai_MC.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/ai_MC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/ai_TDlearning.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/ai_TDlearning.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/ai_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/ai_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/ai_bestScoreNextMove.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/ai_bestScoreNextMove.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/ai_expectimax.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/ai_expectimax.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/ai_minimax.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/ai_minimax.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/ai_parallelMC.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/ai_parallelMC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/ai_q_learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/ai_q_learning.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/ai_random.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/AI/ai_random.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/game2048_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/game2048_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/game2048_score.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/gameBoard2048.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/gameBoard2048.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/game_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/game_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/game_score.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameGrids/GameGridLight.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameGrids/GameGridLight.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameGrids/LogGameGrid.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameGrids/LogGameGrid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameGrids/baseGrid2048.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameGrids/baseGrid2048.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameGrids/simple_grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameGrids/simple_grid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tools/geometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tools/geometry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tools/have_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tools/have_logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tools/mysql_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tools/mysql_wrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnitTests/AI/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnitTests/AI/q_learning_Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/AI/q_learning_Test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnitTests/GameGrid/GameGridLight_Test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnitTests/GameGrid/LogGameGrid_Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/GameGrid/LogGameGrid_Test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnitTests/GameGrid/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnitTests/GameGrid/base_grid_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/GameGrid/base_grid_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnitTests/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnitTests/simulationNode_Test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/features_selection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/features_selection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perp_vector.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/play_2048.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/play_2048.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/play_console.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/play_console.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
-    <ignored path="2048-AI.iws" />
-    <ignored path=".idea/workspace.xml" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,10 +65,6 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
-  </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
-  <component name="FavoritesManager">
-    <favorites_list name="2048-AI" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -128,21 +168,19 @@
       </list>
     </option>
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1,
+  "fromUser": false
+}]]></component>
   <component name="ProjectFrameBounds">
     <option name="x" value="65" />
     <option name="y" value="24" />
     <option name="width" value="1301" />
     <option name="height" value="744" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
-    <OptionsSetting value="true" id="Add" />
-    <OptionsSetting value="true" id="Remove" />
-    <OptionsSetting value="true" id="Checkout" />
-    <OptionsSetting value="true" id="Update" />
-    <OptionsSetting value="true" id="Status" />
-    <OptionsSetting value="true" id="Edit" />
+  <component name="ProjectId" id="3DMelToVBGxsK7QNQM91Dtd4pvU" />
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
-    <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -160,12 +198,20 @@
     </navigator>
     <panes />
   </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Workspaces/CodingGame" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
-    <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="recentsLimit" value="5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.google.cloudcode.ide_session_index": "20260506_0000",
+    "git-widget-placeholder": "wip",
+    "settings.editor.selected.configurable": "actions.on.save"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/AI/Models" />
@@ -179,124 +225,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests in LogGameGrid_Test">
-    <configuration default="false" name="Unittests in GameGridLight_Test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UnitTests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="2048-AI" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UnitTests/GameGrid/GameGridLight_Test.py" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Unittests in LogGameGrid_Test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UnitTests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="2048-AI" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UnitTests/GameGrid/LogGameGrid_Test.py" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Unittests in q_learning_Test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UnitTests/AI" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="2048-AI" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UnitTests/AI/q_learning_Test.py" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Unittests in base_grid_test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UnitTests/GameGrid" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="2048-AI" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UnitTests/GameGrid/base_grid_test.py" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="2048-AI" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="2048-AI" />
-      <method />
-    </configuration>
+  <component name="RunManager">
     <configuration default="true" type="tests" factoryName="Attests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -316,109 +245,147 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
+    <configuration name="Unittests in GameGridLight_Test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="2048-AI" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UnitTests" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="2048-AI" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Nosetests">
+    <configuration name="Unittests in LogGameGrid_Test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="2048-AI" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UnitTests" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="2048-AI" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
+    <configuration name="Unittests in base_grid_test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="2048-AI" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UnitTests/GameGrid" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="2048-AI" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="py.test">
+    <configuration name="Unittests in fxfabre" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="2048-AI" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UnitTests" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="2048-AI" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="testToRun" value="" />
-      <option name="keywords" value="" />
-      <option name="params" value="" />
-      <option name="USE_PARAM" value="false" />
-      <option name="USE_KEYWORD" value="false" />
-      <method />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
     </configuration>
-    <list size="4">
-      <item index="0" class="java.lang.String" itemvalue="Python tests.Unittests in GameGridLight_Test" />
-      <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in LogGameGrid_Test" />
-      <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in q_learning_Test" />
-      <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in base_grid_test" />
-    </list>
+    <configuration name="Unittests in fxfabre" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="2048-AI" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UnitTests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in fxfabre" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="2048-AI" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/UnitTests/GameGrid" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in fxfabre" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="2048-AI" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/AI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python tests.Unittests in LogGameGrid_Test" />
-        <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in GameGridLight_Test" />
-        <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in base_grid_test" />
-        <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in q_learning_Test" />
+      <list>
+        <item itemvalue="Python tests.Unittests in fxfabre" />
+        <item itemvalue="Python tests.Unittests in fxfabre" />
+        <item itemvalue="Python tests.Unittests in fxfabre" />
+        <item itemvalue="Python tests.Unittests in fxfabre" />
       </list>
     </recent_temporary>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-024ed6589d45-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.23567.174" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -430,6 +397,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1452500020908</updated>
+      <workItem from="1778096519248" duration="715000" />
     </task>
     <task id="LOCAL-00001" summary="Update unit tests&#10;Add logs&#10;Bugfix">
       <created>1480855530885</created>
@@ -672,7 +640,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="false" />
     <MESSAGE value="Update unit tests&#10;Add logs&#10;Bugfix" />
     <MESSAGE value="Update unit tests&#10;" />
     <MESSAGE value="Stop algo when values too big for the model" />
@@ -694,12 +661,6 @@
     <MESSAGE value="Remove useless comment" />
     <MESSAGE value="use file moves_history.csv to find best subspace" />
     <option name="LAST_COMMIT_MESSAGE" value="use file moves_history.csv to find best subspace" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="73" />
-    </breakpoint-manager>
-    <watches-manager />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/AI/ai_expectimax.py">
